@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "891666632434",
+    "firebase_url": "https://fir-aoo-49890.firebaseio.com",
+    "project_id": "fir-aoo-49890",
+    "storage_bucket": "fir-aoo-49890.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891666632434:android:a2f4afe1410023c51fca6b",
+        "android_client_info": {
+          "package_name": "com.something.arfurnitureapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891666632434-ta033gujpile9t6o8kt4ngoc5ontu0qm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.something.arfurnitureapp",
+            "certificate_hash": "536f596037a6216fe3dc4b13d945f6dc9ea74e2c"
+          }
+        },
+        {
+          "client_id": "891666632434-iqb7q1dk7gb4l0gesp2vfo3ef22hqhiv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+
+          "current_key": "AIzaSyD8tIon5NT3ezxulAHQmybVHFGlrmyaILQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891666632434-iqb7q1dk7gb4l0gesp2vfo3ef22hqhiv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

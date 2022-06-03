@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/items_bought_image_id"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"/>
+
+    <TextView
+        android:id="@+id/items_bought_holder_id"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/itemsBought_itemName_id"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/itemsBought_price_id"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/itemsBought_quantity_id"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+
+        android:textSize="24dp"
+    />
+
+    <Button
+        android:id="@+id/cancel_order_id"
+        android:layout_width="match_parent"
+        android:text="Cancel Order"
+        android:layout_height="40dp"/>
+
+
+</LinearLayout>

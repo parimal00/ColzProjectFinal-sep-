@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/myPost_image_id"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="16dp" />
+<TextView
+    android:id="@+id/item_name_id"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="jack is sexy"
+    android:textSize="30dp"/>
+    <TextView
+        android:id="@+id/myPost_phoneNO_id"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="jack is sexy"
+        android:textSize="30dp"/>
+    <TextView
+        android:id="@+id/myPost_quantity_id"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="jack is sexy"
+        android:textSize="30dp"/>
+
+    <Button
+        android:id="@+id/deletePost_id"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Delete this post"/>
+
+
+</LinearLayout>
