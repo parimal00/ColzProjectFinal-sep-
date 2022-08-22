@@ -10,65 +10,43 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Text;
-
-public class LoginActivity extends AppCompatActivity {
-
-  //  EditText Email,Password;
-    Button Login_btn;
+public class LoginAsAdmin extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     TextInputLayout Email,Password;
-    TextView SignupBtn;
-    TextView LoginAsAdmin;
-
+    Button Login_btn;
+    TextView ErrorMessage;
+    FirebaseFirestore fStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_as_admin);
+
 
         firebaseAuth = FirebaseAuth.getInstance();
-
-        if(firebaseAuth.getCurrentUser()!=null){
-            startActivity(new Intent(getApplicationContext(),NewsFeedActivity.class));
-            finish();
-        }
-
-
-
-
+        fStore = FirebaseFirestore.getInstance();
         Email = findViewById(R.id.email_id);
         Password = findViewById(R.id.password_id);
-        SignupBtn=findViewById(R.id.signupBtn_id);
-
         Login_btn = findViewById(R.id.loginBtn_id);
-        LoginAsAdmin=findViewById(R.id.loginAsAdmin_id);
-        SignupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),RegisterActivity.class);
-                startActivity(intent);
-                Log.d("buttotn pressed","hello");
-            }
-        });
+        ErrorMessage=findViewById(R.id.error_message_id);
 
 
-        LoginAsAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),LoginAsAdmin.class);
-                startActivity(intent);
-            }
-        });
+        if(firebaseAuth.getCurrentUser()!=null){
+            startActivity(new Intent(getApplicationContext(),AdminHomeActivity.class));
+            finish();
+        }
 
         Login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,12 +55,14 @@ public class LoginActivity extends AppCompatActivity {
                 String password = Password.getEditText().getText().toString().replace(" ", "");
                 Log.d("checkk","checkk"+email+password);
 
+
                 if(TextUtils.isEmpty(email)){
-                    Email.setError("email required");
+                   ErrorMessage.setText("email is empty");
+                  return;
                 }
 
                 if(TextUtils.isEmpty(password)){
-                    Password.setError("password required");
+                    ErrorMessage.setText(" password is empty");
                 }
 
                 else {
@@ -95,10 +75,25 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 pd.dismiss();
-                                startActivity(new Intent(getApplicationContext(), NewsFeedActivity.class));
+                                DocumentReference df= fStore.collection("admins").document(firebaseAuth.getUid());
+                                df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
+
+                                    }
+                                });
+
+                                df.get().addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        ErrorMessage.setText("admin not found");
+
+                                    }
+                                });
                             } else {
                                 pd.dismiss();
-                                Email.setError("email or password incorrect");
+                                ErrorMessage.setText("email or password is incorrect");
                             }
                         }
                     });
