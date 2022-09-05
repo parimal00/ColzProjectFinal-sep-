@@ -69,7 +69,7 @@ public class ShareFragment extends Fragment {
 
         Log.d("waaaaaaaaaaaaaa", userID);
 
-        Query query = firebaseFirestore.collection("users").document(userID).collection("itemsBought");
+        Query query = firebaseFirestore.collection("users").document(userID).collection("itemsBought").whereEqualTo("item_bought",false);
 
 
         FirestoreRecyclerOptions<ItemsBoughtModel> options = new FirestoreRecyclerOptions.Builder<ItemsBoughtModel>().setQuery(query, ItemsBoughtModel.class).build();

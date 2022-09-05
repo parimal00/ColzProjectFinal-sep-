@@ -1,6 +1,7 @@
 package com.something.arfurnitureapp;
 
 public class OrderedUsersModel {
+    String buying_user_id;
     public String getName() {
         return name;
     }
@@ -9,7 +10,7 @@ public class OrderedUsersModel {
         this.name = name;
     }
 
-    public OrderedUsersModel(String name,String address,String phoneNo,String username,String image_name, String ordered_quantity, String product_doc_ref, String documentRef) {
+    public OrderedUsersModel(String name,String address,String phoneNo,String username,String image_name, String ordered_quantity, String product_doc_ref, String documentRef,String buying_user_id) {
         this.name = name;
         this.address = address;
         this.phoneNo = phoneNo;
@@ -18,6 +19,7 @@ public class OrderedUsersModel {
         this.ordered_quantity = ordered_quantity;
         this.product_doc_ref = product_doc_ref;
         this.documentRef = documentRef;
+        this.buying_user_id=buying_user_id;
 
     }
     public  OrderedUsersModel(){
@@ -29,6 +31,14 @@ public class OrderedUsersModel {
     String username;
     String image_name;
     String ordered_quantity;
+
+    public String getBuying_user_id() {
+        return buying_user_id;
+    }
+
+    public void setBuying_user_id(String buying_user_id) {
+        this.buying_user_id = buying_user_id;
+    }
 
     public String getDocumentRef() {
         return documentRef;

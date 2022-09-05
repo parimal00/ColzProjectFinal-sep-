@@ -1,6 +1,6 @@
 package com.something.arfurnitureapp;
 
-public class ProductModel {
+public  class ProductModel {
 
     String title;
     String price;

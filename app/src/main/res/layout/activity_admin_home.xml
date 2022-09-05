@@ -1,19 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".AdminHomeActivity">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="165dp"
-        android:layout_height="43dp"
-        android:text="Admin home"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:id="@+id/admin_logout_id"
+        android:text="logout"
+        android:background="#2FEE70"
+        android:textColor="#ffff"
+        android:layout_marginTop="70dp"
+        android:layout_gravity="center"
+
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+
+
+        >
+
+    <Button
+        android:id="@+id/all_users_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="all user"
+        android:background="#2FEE70"
+        android:textColor="#ffff"
+        android:layout_weight=".2"
+        android:layout_margin="5dp"
+        />
+
+        <Button
+            android:id="@+id/all_items_d"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:background="#2FEE70"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:textColor="#ffff"
+            android:text="all items" />
+
+        <Button
+            android:id="@+id/all_orders_id"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:textColor="#ffff"
+            android:background="#2FEE70"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:text="all orders" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

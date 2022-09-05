@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,10 +30,20 @@ public class LoginAsAdmin extends AppCompatActivity {
     Button Login_btn;
     TextView ErrorMessage;
     FirebaseFirestore fStore;
+
+    private  boolean isConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+
+        return connectivityManager.getActiveNetworkInfo()!=null&&connectivityManager.getActiveNetworkInfo().isConnectedOrConnecting();
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_as_admin);
+
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -43,6 +54,10 @@ public class LoginAsAdmin extends AppCompatActivity {
         ErrorMessage=findViewById(R.id.error_message_id);
 
 
+        if(isConnected()==false){
+            ErrorMessage.setText("Internet Connection failed");
+            return;
+        }
         if(firebaseAuth.getCurrentUser()!=null){
             startActivity(new Intent(getApplicationContext(),AdminHomeActivity.class));
             finish();
@@ -69,6 +84,8 @@ public class LoginAsAdmin extends AppCompatActivity {
                     ProgressDialog pd = new ProgressDialog(view.getContext());
                     pd.setTitle("Loggin in ...");
                     pd.show();
+
+                    Log.d("email",email+password);
 
                     firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override

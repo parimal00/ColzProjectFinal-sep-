@@ -176,11 +176,25 @@ public class HomeFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         String orderedQuantity = holder.OrderedQuantity.getText().toString();
-                                        buyProduct(userID,price,itemsName,image_name,orderedQuantity,product_doc_ref);
-                                        Toast.makeText(view.getContext(),"items successfully bought",Toast.LENGTH_SHORT);
+                                        if(!model.getQuantity().equals("null")) {
+                                            buyProduct(userID, price, itemsName, image_name, orderedQuantity, product_doc_ref);
+                                            Toast.makeText(view.getContext(), "items successfully bought", Toast.LENGTH_SHORT);
+                                        }
+                                        else{
+                                            new AlertDialog.Builder(view.getContext())
+                                                    .setTitle("Product not available")
+                                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                                                        }
+                                                    })
+                                                   .show();
+                                        }
                                     }
                                 })
-                                .setNegativeButton("aawee", new DialogInterface.OnClickListener() {
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -266,6 +280,10 @@ public class HomeFragment extends Fragment {
                 user.put("documentRef",documentRef);
                 user.put("ordered_quantity",orderedQuantity);
                 user.put("product_doc_ref",product_doc_ref);
+                user.put("item_delivered",false);
+                user.put("buying_user_id",firebaseAuth.getCurrentUser().getUid());
+
+
 
                 //Add a new document with a generated ID
                 firebaseFirestore.collection("users").document(userID).collection("buyingUsers")
@@ -308,7 +326,7 @@ public class HomeFragment extends Fragment {
         itemsInfo.put("postedUserId",userID);
         itemsInfo.put("ordered_quantity",orderedQuantity);
         itemsInfo.put("product_doc_ref",product_doc_ref);
-
+        itemsInfo.put("item_bought",false);
 
         firebaseFirestore.collection("users").document(currentUserID).collection("itemsBought")
                 .document(documentRef).set(itemsInfo).addOnSuccessListener(new OnSuccessListener<Void>() {

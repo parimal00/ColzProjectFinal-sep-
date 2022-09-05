@@ -167,4 +167,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginBtn_id"
         app:layout_constraintVertical_bias="0.809" />
+
+    <TextView
+        android:id="@+id/login_error_id"
+        android:layout_width="267dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="215dp"
+        android:textColor="#ff0000"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/email_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

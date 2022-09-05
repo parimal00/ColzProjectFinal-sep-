@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,6 +38,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.something.arfurnitureapp.ARActivity;
+import com.something.arfurnitureapp.DigitalSignature;
 import com.something.arfurnitureapp.OrderedUsersModel;
 import com.something.arfurnitureapp.ProductModel;
 import com.something.arfurnitureapp.R;
@@ -77,7 +79,7 @@ public class ToolsFragment extends Fragment {
 
         Log.d("waaaaaaaaaaaaaa",userID);
 
-        Query query = firebaseFirestore.collection("users").document(userID).collection("buyingUsers");
+        Query query = firebaseFirestore.collection("users").document(userID).collection("buyingUsers").whereEqualTo("item_delivered",false);
 
 
         FirestoreRecyclerOptions<OrderedUsersModel> options = new FirestoreRecyclerOptions.Builder<OrderedUsersModel>().setQuery(query,OrderedUsersModel.class).build();
@@ -96,6 +98,7 @@ public class ToolsFragment extends Fragment {
                 holder.OrderedUserQuantity.setText("Quantity :"+model.getOrdered_quantity());
 
                 String  image_name = model.getImage_name();
+
 
 
                 firebaseFirestore.collection("products").document(model.getProduct_doc_ref())
@@ -131,36 +134,88 @@ public class ToolsFragment extends Fragment {
 
                             Log.d("updated ", String.valueOf(updatedQuantity));
 
-////
-                        firebaseFirestore.collection("products").document(model.getProduct_doc_ref())
-                                .update("quantity",String.valueOf(updatedQuantity));
-
-                        firebaseFirestore.collection("users").document(userID).collection("buyingUsers").document(model.getDocumentRef()).delete()
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Log.d("sexy","waaaaaaaa");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("sexy","bitch");
-                            }
-                        });
+                            String product_dec_ref=model.getProduct_doc_ref();
+                            String  documentRef=model.getDocumentRef();
+                            String buying_user_id=model.getBuying_user_id();
 
 
-                        firebaseFirestore.collection("users").document(userID).collection("itemsBought").document(model.getDocumentRef()).delete()
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Log.d("sexy","waaaaaaaa");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("sexy","bitch");
-                            }
-                        });
+                            Intent intent=new Intent(getContext(),DigitalSignature.class);
+                            intent.putExtra("product_doc_ref",product_dec_ref);
+                            intent.putExtra("documentRef",documentRef);
+                            intent.putExtra("buying_user_id",buying_user_id);
+                            intent.putExtra("userID",userID);
+                            intent.putExtra("updatedQuantity",updatedQuantity);
+                            startActivity(intent);
+
+
+//////
+//                        firebaseFirestore.collection("products").document(model.getProduct_doc_ref())
+//                                .update("quantity",String.valueOf(updatedQuantity));
+
+                        String quantity=model.getOrdered_quantity();
+
+
+                        //add the buying user in completed orders field
+
+//                        DocumentReference docRef = firebaseFirestore.collection("users").document(userID).collection("buyingUsers").document(model.getDocumentRef());
+//                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                if (task.isSuccessful()) {
+//                                    DocumentSnapshot document = task.getResult();
+//                                    if (document.exists()) {
+//                                        Log.d("waaa", "DocumentSnapshot data: " + document.getData());
+//
+//                                        firebaseFirestore.collection("users").document(userID).collection("orders_delivered")
+//                                                .document(model.getDocumentRef()).set(document.getData())
+//                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                                    @Override
+//                                                    public void onSuccess(Void aVoid) {
+//
+//                                                    }
+//                                                }).addOnFailureListener(new OnFailureListener() {
+//                                            @Override
+//                                            public void onFailure(@NonNull Exception e) {
+//
+//                                            }
+//                                        });
+//
+//                                    } else {
+//                                        Log.d("waaa", "No such document");
+//                                    }
+//                                } else {
+//                                    Log.d("waaaa", "get failed with ", task.getException());
+//                                }
+//                            }
+//                        });
+
+
+//                        firebaseFirestore.collection("users").document(userID).collection("buyingUsers").document(model.getDocumentRef()).update("item_delivered",true)
+//                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<Void> task) {
+//                                        Log.d("sexy","waaaaaaaa");
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.d("sexy","bitch");
+//                            }
+//                        });
+//
+//
+//                        firebaseFirestore.collection("users").document(buying_user_id).collection("itemsBought").document(model.getDocumentRef()).update("item_bought",true)
+//                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<Void> task) {
+//                                        Log.d("sexy","waaaaaaaa");
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.d("sexy","bitch");
+//                            }
+//                        });
 
 
                     }

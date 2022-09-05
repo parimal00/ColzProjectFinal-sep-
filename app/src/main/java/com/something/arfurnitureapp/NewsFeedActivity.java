@@ -1,12 +1,16 @@
 package com.something.arfurnitureapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -58,6 +62,26 @@ public class NewsFeedActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.news_feed, menu);
         return true;
+    }
+//
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+        int item_id=item.getItemId();
+
+        if(item_id==R.id.action_settings){
+            Log.d("item_presses","helllo there");
+
+            startActivity(new Intent(getApplicationContext(),Delivered_Items.class));
+        }
+        if(item_id==R.id.items_bought){
+            Log.d("item_presses","helllo there");
+
+            startActivity(new Intent(getApplicationContext(),Items_Bought.class));
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
