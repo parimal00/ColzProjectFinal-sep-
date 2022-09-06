@@ -2,6 +2,14 @@ package com.something.arfurnitureapp;
 
 public class OrderedUsersModel {
     String buying_user_id;
+    String signature_path;
+
+    public  String getSignature_path(){
+        return signature_path;
+    }
+    public  void setSignature_path(String signature_path){
+        this.signature_path=signature_path;
+    }
     public String getName() {
         return name;
     }

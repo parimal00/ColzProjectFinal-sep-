@@ -12,6 +12,15 @@
 
     android:orientation="vertical"
     >
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:textColor="#ff0000"
+        android:textSize="15dp"
+        android:layout_height="wrap_content"
+        android:text="Draw the signature below"
+        />
     <com.github.gcacace.signaturepad.views.SignaturePad
         android:layout_width="match_parent"
         android:id="@+id/signature_id"
@@ -24,8 +33,10 @@
         android:layout_marginTop="0dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-
-        android:text="Button" />
+        android:background="#2FEE70"
+        android:text="Save"
+        android:textColor="#ffff"
+/>
 </LinearLayout>
     <ImageView
         android:id="@+id/display_signature_id"

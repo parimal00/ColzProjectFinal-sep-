@@ -85,13 +85,13 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 //
-                String name = Name.getEditText().getText().toString();
-                String username = Username.getEditText().getText().toString();
-                String email = Email.getEditText().getText().toString();
-                String password1 = Password1.getEditText().getText().toString();
-                String password2 = Password2.getEditText().getText().toString();
-                String address = Address.getEditText().getText().toString();
-                String phone_no = Phone_no.getEditText().getText().toString();
+                String name = Name.getEditText().getText().toString().replace(" ", "");
+                String username = Username.getEditText().getText().toString().replace(" ", "");
+                String email = Email.getEditText().getText().toString().replace(" ", "");
+                String password1 = Password1.getEditText().getText().toString().replace(" ", "");
+                String password2 = Password2.getEditText().getText().toString().replace(" ", "");
+                String address = Address.getEditText().getText().toString().replace(" ", "");
+                String phone_no = Phone_no.getEditText().getText().toString().replace(" ", "");
 
                 Log.d("here it comes",""+name+username+email+password1+password2+address+phone_no);
 

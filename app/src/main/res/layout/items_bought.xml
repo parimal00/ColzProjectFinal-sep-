@@ -3,50 +3,118 @@
     android:orientation="vertical" android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="20dp"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/items_bought_image_id"
         android:layout_width="match_parent"
         android:layout_height="400dp"/>
 
-    <TextView
-        android:id="@+id/items_bought_holder_id"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-
-        android:textSize="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/itemsBought_itemName_id"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="Seller Name:"
+            android:textColor="#20eb7d"
+            android:textSize="18dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:id="@+id/seller_name_id"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-
-        android:textSize="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/itemsBought_price_id"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="Seller Contact No:"
+            android:textColor="#20eb7d"
+            android:textSize="18dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:id="@+id/seller_contact_no_id"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-
-        android:textSize="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/itemsBought_quantity_id"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="Item Name:"
+            android:textColor="#20eb7d"
+            android:textSize="18dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:id="@+id/itemsBought_itemName_id"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-
-        android:textSize="24dp"
-        />
-
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="Price:"
+            android:textColor="#20eb7d"
+            android:textSize="18dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:id="@+id/itemsBought_price_id"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="Quantity:"
+            android:textColor="#20eb7d"
+            android:textSize="18dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:id="@+id/itemsBought_quantity_id"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"
+            android:textSize="18dp"
+            />
+    </LinearLayout>
 
 </LinearLayout>

@@ -23,7 +23,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -32,6 +36,8 @@ import com.something.arfurnitureapp.ui.share.ShareFragment;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.annotation.Nullable;
 
 public class Items_Bought extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
@@ -72,11 +78,26 @@ public class Items_Bought extends AppCompatActivity {
 
                 String image_name =model.getImage_name();
 
-                holder.Quantity.setText("Quantity : "+model.getOrdered_quantity());
-                holder.Price.setText("Price : "+ model.getPrice());
-                holder.Name.setText("Product Name :" +model.getProductName());
+                holder.Quantity.setText(""+model.getOrdered_quantity());
+                holder.Price.setText(" "+ model.getPrice());
+                holder.Name.setText("" +model.getProductName());
 
 
+                DocumentReference documentReference = firebaseFirestore.collection("users").document(model.getPostedUserId());
+
+
+                documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        // Log.d("check profile mann",documentSnapshot.getString("name"));
+//                        Name.setText(documentSnapshot.getString("name"));
+//                        Address.setText(documentSnapshot.getString("address"));
+//                        Phone_no.setText(documentSnapshot.getString("phone_no"));
+                        holder.SellerName.setText(documentSnapshot.getString("name"));
+                        holder.SellerNo.setText(documentSnapshot.getString("phone_no"));
+
+                    }
+                });
 
                 try {
                     final File localFile = File.createTempFile("images", "jpg");
@@ -113,7 +134,7 @@ public class Items_Bought extends AppCompatActivity {
     }
     private class ItemsBoughtHolder extends RecyclerView.ViewHolder {
 
-        TextView textView, Name, Price, Quantity;
+        TextView textView, Name, Price, Quantity,SellerName,SellerNo;
         ImageView imageView;
 
 
@@ -121,7 +142,10 @@ public class Items_Bought extends AppCompatActivity {
         public ItemsBoughtHolder(@NonNull View itemView) {
             super(itemView);
 
-            textView = itemView.findViewById(R.id.items_bought_holder_id);
+           // textView = itemView.findViewById(R.id.items_bought_holder_id);
+            SellerName=itemView.findViewById(R.id.seller_name_id);
+            SellerNo=itemView.findViewById(R.id.seller_contact_no_id);
+
             imageView = itemView.findViewById(R.id.items_bought_image_id);
 
             Name= itemView.findViewById(R.id.itemsBought_itemName_id);

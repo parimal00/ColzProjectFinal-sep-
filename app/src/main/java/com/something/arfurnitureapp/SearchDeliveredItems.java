@@ -20,10 +20,8 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,13 +29,11 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.something.arfurnitureapp.ui.tools.ToolsFragment;
 
 import java.io.File;
 import java.io.IOException;
 
-public class Delivered_Items extends AppCompatActivity {
-
+public class SearchDeliveredItems extends AppCompatActivity {
 
     FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
@@ -49,12 +45,10 @@ public class Delivered_Items extends AppCompatActivity {
     Button Search;
     EditText Email;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delivered__items);
+        setContentView(R.layout.activity_search_delivered_items);
 
         Email=findViewById(R.id.email_id_search);
         Search = findViewById(R.id.search_delivered_items_id);
@@ -67,6 +61,9 @@ public class Delivered_Items extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Intent intent =getIntent();
+        String email =intent.getStringExtra("email");
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -81,7 +78,7 @@ public class Delivered_Items extends AppCompatActivity {
 
         Log.d("waaaaaaaaaaaaaa",userID);
 
-        Query query = firebaseFirestore.collection("users").document(userID).collection("buyingUsers").whereEqualTo("item_delivered",true);
+        Query query = firebaseFirestore.collection("users").document(userID).collection("buyingUsers").whereEqualTo("item_delivered",true).whereEqualTo("email",email);
 
 
         FirestoreRecyclerOptions<OrderedUsersModel> options = new FirestoreRecyclerOptions.Builder<OrderedUsersModel>().setQuery(query,OrderedUsersModel.class).build();
@@ -89,17 +86,17 @@ public class Delivered_Items extends AppCompatActivity {
 
 
 
-        adapter = new FirestoreRecyclerAdapter<OrderedUsersModel, Delivered_Items.OrderUsersListHolder>(options) {
+        adapter = new FirestoreRecyclerAdapter<OrderedUsersModel, SearchDeliveredItems.OrderUsersListHolder>(options) {
 
 
             @Override
-            protected void onBindViewHolder(@NonNull Delivered_Items.OrderUsersListHolder holder, int position, @NonNull OrderedUsersModel model) {
-                holder.OrderedUserName.setText(""+model.getUsername());
-                holder.Address.setText(" "+model.getAddress());
-                holder.Phone_no.setText(""+model.getPhoneNo());
-                holder.OrderedUserQuantity.setText(""+model.getOrdered_quantity());
+            protected void onBindViewHolder(@NonNull SearchDeliveredItems.OrderUsersListHolder holder, int position, @NonNull OrderedUsersModel model) {
+                holder.OrderedUserName.setText("Username: "+model.getUsername());
+                holder.Address.setText("Address: "+model.getAddress());
+                holder.Phone_no.setText("phone no"+model.getPhoneNo());
+                holder.OrderedUserQuantity.setText("Quantity :"+model.getOrdered_quantity());
 
-               String signature_path= model.getSignature_path();
+                String signature_path= model.getSignature_path();
 
                 String  image_name = model.getImage_name();
                 String buying_user_id=model.getBuying_user_id();
@@ -159,9 +156,9 @@ public class Delivered_Items extends AppCompatActivity {
 
             @NonNull
             @Override
-            public Delivered_Items.OrderUsersListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public SearchDeliveredItems.OrderUsersListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_delivered_layout,parent,false);
-                return new Delivered_Items.OrderUsersListHolder(view);
+                return new SearchDeliveredItems.OrderUsersListHolder(view);
             }
         };
 
@@ -169,7 +166,6 @@ public class Delivered_Items extends AppCompatActivity {
         mfireStoreList.setHasFixedSize(true);
         mfireStoreList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mfireStoreList.setAdapter(adapter);
-
     }
     private class OrderUsersListHolder extends  RecyclerView.ViewHolder {
 

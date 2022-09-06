@@ -92,10 +92,10 @@ public class ToolsFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull OrderUsersListHolder holder, int position, @NonNull OrderedUsersModel model) {
-                holder.OrderedUserName.setText("Username: "+model.getUsername());
-                holder.Address.setText("Address: "+model.getAddress());
-                holder.Phone_no.setText("phone no"+model.getPhoneNo());
-                holder.OrderedUserQuantity.setText("Quantity :"+model.getOrdered_quantity());
+                holder.OrderedUserName.setText(""+model.getUsername());
+                holder.Address.setText(""+model.getAddress());
+                holder.Phone_no.setText(""+model.getPhoneNo());
+                holder.OrderedUserQuantity.setText(""+model.getOrdered_quantity());
 
                 String  image_name = model.getImage_name();
 
@@ -131,8 +131,10 @@ public class ToolsFragment extends Fragment {
 
                         Log.d("delivered",model.getProduct_doc_ref());
                             int updatedQuantity = quantity -Integer.parseInt( model.getOrdered_quantity());
+                            Log.d("check_quantity",String.valueOf(quantity));
+                            Log.d("check_ordered_quantity",model.getOrdered_quantity());
 
-                            Log.d("updated ", String.valueOf(updatedQuantity));
+                            Log.d("check_updated_quantity ", String.valueOf(updatedQuantity));
 
                             String product_dec_ref=model.getProduct_doc_ref();
                             String  documentRef=model.getDocumentRef();
@@ -144,7 +146,7 @@ public class ToolsFragment extends Fragment {
                             intent.putExtra("documentRef",documentRef);
                             intent.putExtra("buying_user_id",buying_user_id);
                             intent.putExtra("userID",userID);
-                            intent.putExtra("updatedQuantity",updatedQuantity);
+                            intent.putExtra("updatedQuantity",String.valueOf(updatedQuantity));
                             startActivity(intent);
 
 

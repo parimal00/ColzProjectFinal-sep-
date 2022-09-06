@@ -6,49 +6,18 @@
     android:layout_height="match_parent"
     android:background="@drawable/profile_background">
 
-    <TextView
-        android:id="@+id/name_id"
-        android:layout_width="176dp"
-        android:layout_height="43dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.668"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85" />
 
-    <TextView
-        android:id="@+id/phone_no_id"
-        android:layout_width="183dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="112dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.91" />
 
-    <TextView
-        android:id="@+id/address_id"
-        android:layout_width="167dp"
-        android:layout_height="46dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.459"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+
+
+
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/editProfile_id"
         android:layout_width="220dp"
         android:layout_height="59dp"
         android:background="@drawable/butttonxml"
-        android:text="Button"
+        android:text="Edit Profile"
         android:textColor="#ffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -142,11 +111,6 @@
             android:textStyle="bold"></TextView>
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="waaaaazzzuup"
-            android:textSize="18dp"></TextView>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
