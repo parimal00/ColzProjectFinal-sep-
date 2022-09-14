@@ -3,15 +3,19 @@ package com.something.arfurnitureapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     ProgressBar progressBar;
     FirebaseFirestore fStore;
+    Boolean validation_error;
+    TextView ErrorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         Password2=findViewById(R.id.password2_id);
         Phone_no=findViewById(R.id.phone_no_id);
         Address=findViewById(R.id.address_id);
+        ErrorMessage= findViewById(R.id.error_message_id);
 
         firebaseAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -92,37 +99,62 @@ public class RegisterActivity extends AppCompatActivity {
                 String password2 = Password2.getEditText().getText().toString().replace(" ", "");
                 String address = Address.getEditText().getText().toString().replace(" ", "");
                 String phone_no = Phone_no.getEditText().getText().toString().replace(" ", "");
+                 validation_error=false;
 
                 Log.d("here it comes",""+name+username+email+password1+password2+address+phone_no);
 
                 if (TextUtils.isEmpty(name)) {
-                    Name.setError("Name is required");
-                }
-                if (TextUtils.isEmpty(username)) {
-                    Username.setError("Username is required");
-                }
-                if (TextUtils.isEmpty(email)) {
-                    Email.setError("Email is required");
-                }
-                if (TextUtils.isEmpty(password1)) {
-                    Password1.setError("Password is required");
-                    if (password1.length() < 6) {
-                        Password1.setError("Password should be at least 6 characters");
-                    }
-                }
-                if (TextUtils.isEmpty(password2)) {
-                    Password2.setError("Password is required");
-                }
-                if (TextUtils.isEmpty(address)) {
-                    Address.setError("Address is required");
-                }
-                if (TextUtils.isEmpty(phone_no)) {
-                    Phone_no.setError("Phone number is required");
+                    validation_error=true;
+                    ErrorMessage.setText("name is required");
                 }
 
+              else if (TextUtils.isEmpty(username)) {
+                    validation_error=true;
+                    ErrorMessage.setText("username is required");
 
+                }
+                else if (TextUtils.isEmpty(email)) {
+                    validation_error=true;
+                    ErrorMessage.setText("email is required");
+                }
+                else if (TextUtils.isEmpty(password1)) {
+                    validation_error=true;
+                    ErrorMessage.setText("password is required");
 
-                if (password1.equals(password2)) {
+                }
+                else if(password1.length() < 6){
+
+                        validation_error=true;
+                        ErrorMessage.setText("password should be greater than 5 characters");
+
+                }
+                else if (TextUtils.isEmpty(password2)) {
+                    validation_error=true;
+                    ErrorMessage.setText("password confirmation field is required");
+                }
+                else if (TextUtils.isEmpty(address)) {
+                    validation_error=true;
+                    ErrorMessage.setText("address is required");
+                }
+                else if (TextUtils.isEmpty(phone_no)) {
+                    validation_error=true;
+                    ErrorMessage.setText("phone number is required");
+                }
+                else if(!password1.equals(password2)){
+                    validation_error=true;
+                    ErrorMessage.setText("passwords did not match !");
+                }
+                else if(emailValidator(email)==false){
+                    validation_error=true;
+                    ErrorMessage.setText("email is invalid");
+                }
+                else{
+                    ErrorMessage.setText("");
+                    validation_error=false;
+                }
+
+        Log.d("validation_error",""+validation_error);
+                if (password1.equals(password2) && validation_error==false) {
                     ProgressDialog pd = new ProgressDialog(view.getContext());
                     pd.setTitle("Registering ...");
                     pd.show();
@@ -156,6 +188,19 @@ public class RegisterActivity extends AppCompatActivity {
                                 pd.dismiss();
                             }
 
+                            else{
+                                new AlertDialog.Builder(view.getContext())
+                                        .setTitle("Email is already taken!")
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                                            }
+                                        })
+                                        .show();
+                               pd.dismiss();
+                            }
                         }
                     });
                 }
@@ -166,5 +211,21 @@ public class RegisterActivity extends AppCompatActivity {
            }
      });
 
+    }
+
+    public Boolean emailValidator(String emailToText) {
+
+        // extract the entered data from the EditText
+       // String emailToText = etMail.getText().toString();
+
+        // Android offers the inbuilt patterns which the entered
+        // data from the EditText field needs to be compared with
+        // In this case the entered data needs to compared with
+        // the EMAIL_ADDRESS, which is implemented same below
+        if (!emailToText.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailToText).matches()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

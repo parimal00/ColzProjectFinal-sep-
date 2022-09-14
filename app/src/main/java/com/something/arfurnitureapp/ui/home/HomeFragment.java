@@ -44,6 +44,7 @@ import com.something.arfurnitureapp.LoginActivity;
 import com.something.arfurnitureapp.MainActivity;
 import com.something.arfurnitureapp.ProductModel;
 import com.something.arfurnitureapp.R;
+import com.something.arfurnitureapp.ViewDescription;
 
 import java.io.File;
 import java.io.IOException;
@@ -100,7 +101,7 @@ public class HomeFragment extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
 
-        ImageView2 = root.findViewById(R.id.imageView2);
+        //ImageView2 = root.findViewById(R.id.imageView2);
 
       currentUserID = firebaseAuth.getCurrentUser().getUid();
 
@@ -126,9 +127,6 @@ public class HomeFragment extends Fragment {
 
 
 
-
-
-
         Query query = firebaseFirestore.collection("products");
 
         FirestoreRecyclerOptions<ProductModel> options = new FirestoreRecyclerOptions.Builder<ProductModel>().setQuery(query,ProductModel.class).build();
@@ -144,11 +142,11 @@ public class HomeFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull ProductModel model) {
-                holder.Price.setText("Price :"+model.getPrice());
-                holder.List_name.setText("Title : "+model.getTitle());
-                holder.Address.setText("Address :"+model.getAddresss());
-                holder.ContactNumber.setText("Contact_number: "+model.getPhone_no());
-                holder.Quantity.setText("Available Quantity :"+model.getQuantity());
+                holder.Price.setText(""+model.getPrice());
+                holder.List_name.setText(""+model.getTitle());
+                holder.Address.setText(""+model.getAddresss());
+                holder.ContactNumber.setText(""+model.getPhone_no());
+                holder.Quantity.setText(""+model.getQuantity());
 
 
 
@@ -159,6 +157,11 @@ public class HomeFragment extends Fragment {
                 String itemsName = model.getTitle();
                 String modelID = model.getmodel_id();
                 String product_doc_ref = model.getProduct_doc_ref();
+                String description=model.getDescription();
+                String specification=model.getSpecification();
+
+                Log.d("product description",description);
+                //Log.d("product_specification",specification);
 
 
              //   String orderedQuantity = "1";
@@ -205,7 +208,16 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+                holder.ViewSpecification.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent(getContext(),ViewDescription.class);
+                        intent.putExtra("specifications",specification);
+                        intent.putExtra("description",description);
+                        startActivity(intent);
 
+                    }
+                });
 
                 holder.ShowAR.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -351,7 +363,7 @@ public class HomeFragment extends Fragment {
         EditText OrderedQuantity;
        public TextView Price,Quantity;
        public  ImageView ProductImage;
-        Button ShowAR;
+        Button ShowAR,ViewSpecification;
         Button BuyBtn;
         Button Delete;
 
@@ -359,6 +371,7 @@ public class HomeFragment extends Fragment {
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            ViewSpecification=itemView.findViewById(R.id.view_specifications_id);
             List_name = itemView.findViewById(R.id.list_name);
             Price = itemView.findViewById(R.id.list_price);
             ContactNumber = itemView.findViewById(R.id.contact_number_id);

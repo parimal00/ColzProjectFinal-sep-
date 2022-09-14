@@ -8,6 +8,24 @@ public  class ProductModel {
     String model_id;
     String addresss;
     String phone_no;
+    String specification;
+    String description;
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getQuantity() {
         return quantity;
@@ -75,7 +93,7 @@ public  class ProductModel {
     private  ProductModel(){
 
     }
-    private  ProductModel(String title, String  price, String image_name, String userID,String model_id,String addresss,String quantity,String product_doc_ref, String phone_no){
+    private  ProductModel(String title, String  price, String image_name, String userID,String model_id,String addresss,String quantity,String product_doc_ref, String phone_no,String specification,String description){
         this.price=price;
         this.title=title;
         this.image_name=image_name;
@@ -85,6 +103,8 @@ public  class ProductModel {
         this.phone_no=phone_no;
         this.quantity = quantity;
         this.product_doc_ref = product_doc_ref;
+        this.description=description;
+        this.specification=specification;
     }
 
     public String getTitle() {

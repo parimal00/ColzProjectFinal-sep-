@@ -8,17 +8,25 @@ public class UserModel {
     String username;
     String user_id;
     String email;
-
+    Boolean disable;
     private  UserModel(){
 
     }
-    private  UserModel(String name,String address,String phone_no,String username,String user_id,String email){
+    private  UserModel(String name,String address,String phone_no,String username,String user_id,String email,Boolean disable){
         this.name=name;
         this.address=address;
         this.phone_no=phone_no;
         this.username=username;
         this.user_id=user_id;
         this.email=email;
+        this.disable=disable;
+    }
+
+    public  Boolean getDisable(){
+        return disable;
+    }
+    public  void setDisable(Boolean disable){
+        this.disable=disable;
     }
 
 

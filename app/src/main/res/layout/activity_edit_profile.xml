@@ -89,6 +89,8 @@
     android:id="@+id/edit_profile_id"
     android:layout_width="275dp"
     android:layout_height="60dp"
+    android:background="@drawable/butttonxml"
+    android:textColor="#ffff"
     android:text="Edit Profile"
     />
 </LinearLayout>

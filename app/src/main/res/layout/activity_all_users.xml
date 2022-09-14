@@ -26,11 +26,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
             android:text="Search"
+            android:background="#20eb7d"
+            android:textColor="#ffff"
             />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/allUsers_id"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="734dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

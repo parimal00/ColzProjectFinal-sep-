@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -114,7 +115,18 @@ public class AllUsersActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull AllUsersActivity.UserViewHolder holder, int position, @NonNull UserModel model) {
                 holder.Name.setText(model.getName());
+                holder.Contact_no.setText(model.getPhone_no());
+                holder.Email.setText(model.getEmail());
+                holder.Address.setText(model.getAddresss());
+                if(String.valueOf(model.getDisable()).equals("true")){
+                    holder.Status.setText("not active");
+                    holder.Status.setTextColor(Color.rgb(255, 0, 0));
 
+                }else{
+                    holder.Status.setText("active");
+
+                }
+                Log.d("status_code_waa",String.valueOf(model.getDisable()));
                 Map<Object,Boolean> userMap = new HashMap<>();
                 userMap.put("disbled",false);
                 holder.DisableUser.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +166,7 @@ public class AllUsersActivity extends AppCompatActivity {
                             });
 
 
-                    Log.d("array_size",""+ids.size());
+
                         firebaseFirestore.collection("users")
                                 .document(model.getUser_id())
                                 .update("disable",true)
@@ -169,6 +181,54 @@ public class AllUsersActivity extends AppCompatActivity {
                     }
                 });
 
+                holder.EnableUser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("enable_pressed","pressed");
+
+                        firebaseFirestore.collection("products")
+                                .whereEqualTo("userID",model.getUser_id())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                id=document.getId();
+                                                ids.add(id);
+                                                Log.d("waaaaaa",""+ids.size());
+
+                                                firebaseFirestore.collection("products")
+                                                        .document(id)
+                                                        .update("disable",false)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d("hello there","success");
+                                                            }
+                                                        });
+
+                                            }
+
+                                            Log.d("check_me",""+ids.size());
+                                        } else {
+                                            Log.d("TAG", "Error getting documents: ", task.getException());
+                                        }
+                                    }
+                                });
+
+                        firebaseFirestore.collection("users")
+                                .document(model.getUser_id())
+                                .update("disable",false)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("hello there","success");
+                                    }
+                                });
+
+                    }
+                });
 
 
 
@@ -186,21 +246,26 @@ public class AllUsersActivity extends AppCompatActivity {
     }
     private  class UserViewHolder extends  RecyclerView.ViewHolder {
 
-        public TextView Name;
+        public TextView Name,Address,Contact_no,Phone_no,Email,Status;
         EditText OrderedQuantity;
         public TextView Price,Quantity;
         public ImageView ProductImage;
         Button ShowAR;
         Button BuyBtn;
-        Button Delete,DisableUser;
+        Button Delete,DisableUser,EnableUser;
 
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
 
             Name = itemView.findViewById(R.id.name_id);
+            Address=itemView.findViewById(R.id.address_id);
+            Contact_no=itemView.findViewById(R.id.contact_no_id);
+            Phone_no=itemView.findViewById(R.id.phone_no_id);
+            Email=itemView.findViewById(R.id.email_id);
             DisableUser=itemView.findViewById(R.id.disableUser_id);
-
+            Status=itemView.findViewById(R.id.status_id);
+            EnableUser=itemView.findViewById(R.id.enable_user_id);
 
 
 

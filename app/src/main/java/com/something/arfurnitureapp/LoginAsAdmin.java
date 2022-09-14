@@ -59,13 +59,36 @@ public class LoginAsAdmin extends AppCompatActivity {
             return;
         }
         if(firebaseAuth.getCurrentUser()!=null){
-            startActivity(new Intent(getApplicationContext(),AdminHomeActivity.class));
-            finish();
+            Log.d("getUid",""+firebaseAuth.getUid());
+            DocumentReference df= fStore.collection("admins").document(firebaseAuth.getUid());
+
+            df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
+                            finish();
+                        } else {
+
+                        }
+                    } else {
+
+                    }
+                }
+            });
+
+
+
         }
 
         Login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(firebaseAuth.getCurrentUser()!=null){
+                  firebaseAuth.signOut();
+                }
                 String email = Email.getEditText().getText().toString().replace(" ", "");
                 String password = Password.getEditText().getText().toString().replace(" ", "");
                 Log.d("checkk","checkk"+email+password);
@@ -91,21 +114,26 @@ public class LoginAsAdmin extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                pd.dismiss();
+                                //pd.dismiss();
+                                Log.d("uid_reg",""+firebaseAuth.getUid());
                                 DocumentReference df= fStore.collection("admins").document(firebaseAuth.getUid());
-                                df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                Log.d("jack",""+String.valueOf(document));
+                                                Log.d("waaaaa","jack is sexy");
+                                                startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
+                                                finish();
+                                            } else {
+                                                pd.dismiss();
+                                                ErrorMessage.setText("email or password is incorrect");
+                                            }
+                                        } else {
 
-                                    }
-                                });
-
-                                df.get().addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        ErrorMessage.setText("admin not found");
-
+                                        }
                                     }
                                 });
                             } else {

@@ -7,55 +7,117 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
+
     <ImageView
         android:id="@+id/productImage_id"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="334dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:layout_marginTop="10dp"
-        android:id="@+id/list_name"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="Product Name:"
+            android:textColor="#20eb7d"
+            android:textSize="18dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"/>
+    <TextView
+
+        android:id="@+id/list_name"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:layout_height="30dp"
         android:textSize="18dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productImage_id" />
-
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="Price:"
+            android:textColor="#20eb7d"
+            android:textSize="18dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"/>
     <TextView
         android:id="@+id/list_price"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:layout_height="30dp"
         android:textSize="18dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/list_name" />
-
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="Available Quantity:"
+            android:textColor="#20eb7d"
+            android:textSize="18dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"/>
     <TextView
         android:id="@+id/list_quantity"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:layout_height="30dp"
         android:textSize="18dp"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="Contact No:"
+            android:textColor="#20eb7d"
+            android:textSize="18dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"/>
     <TextView
         android:id="@+id/contact_number_id"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:textSize="18dp"
         android:layout_height="30dp"
         />
-
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="Address:"
+            android:textColor="#20eb7d"
+            android:textSize="18dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"/>
 
     <TextView
         android:id="@+id/address_idzzz"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:textSize="18dp"
         android:layout_height="30dp"
         />
+    </LinearLayout>
 
 
     <LinearLayout
@@ -67,6 +129,7 @@
             android:layout_width="100dp"
             android:textSize="18dp"
             android:layout_height="40dp"
+            android:textColor="#20eb7d"
             android:text="Quantity :"
             />
 
@@ -80,10 +143,29 @@
 
         />
     </LinearLayout>
+    <Button
+        android:id="@+id/view_specifications_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Specifications"
+        android:background="#20eb7d"
+        android:height="40dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="#ffff"
 
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <Button
         android:id="@+id/showARBtn_id"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_marginRight="3dp"
+        android:background="#20eb7d"
+        android:textColor="#ffff"
         android:layout_height="40dp"
         android:text="View AR"
         app:layout_constraintBaseline_toBaselineOf="@+id/list_name"
@@ -93,13 +175,18 @@
 
     <Button
         android:id="@+id/buyBtn_id"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:layout_height="41dp"
+        android:layout_marginLeft="3dp"
         android:text="Order now"
+        android:background="#20eb7d"
+        android:textColor="#ffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.971"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.69" />
+    </LinearLayout>
 </LinearLayout>

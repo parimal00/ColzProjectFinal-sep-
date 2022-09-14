@@ -1,6 +1,8 @@
 package com.something.arfurnitureapp.ui.slideshow;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -43,22 +45,53 @@ import java.util.UUID;
 public class SlideshowFragment extends Fragment {
 
     private SlideshowViewModel slideshowViewModel;
-    TextInputLayout Title, Price, Address, Phone_no, Quantity;
+    TextInputLayout Title, Price, Address, Phone_no, Quantity,Specification,Description;
     Button PostProduct, ChooseFile, UploadGlb,UploadModel;
     ImageView ProductImage;
+    TextView ImageCheck,ModelCheck;
    public Uri filepath,filepath2;
    String uuID;
    String modelID;
 
 
-
-
+    Boolean imageUploaded=false;
+    Boolean modelUploaded=false;
 
 
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
     private StorageReference mStorageRef;
 
+    Boolean validate(String imageCheck,String title,String price,String address,String phone_no,String quantity,String specification,String description){
+
+        if (imageCheck.length()>0) {
+            return true;
+        }
+        if (title.length()>0) {
+            return true;
+        }
+        if (price.length()>0) {
+            return true;
+        }
+        if (address.length()>0) {
+            return true;
+        }
+        if (phone_no.length()>0) {
+            return true;
+        }
+        if (quantity.length()>0) {
+            return true;
+        }
+        if (specification.length()>0) {
+            return true;
+        }
+        if (description.length()>0) {
+            return true;
+        }
+
+        return false;
+
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -69,12 +102,16 @@ public class SlideshowFragment extends Fragment {
 
 
             ProductImage.setImageURI(filepath);
+            ImageCheck.setText("checked");
+            this.imageUploaded=true;
             Log.d("filepath",":waaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+filepath);
         }
 
         if (requestCode == 2 && data != null && resultCode == getActivity().RESULT_OK && data.getData() != null) {
             filepath2 = data.getData();
             Log.d("filepath",":waaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+filepath2);
+            ModelCheck.setText("checked");
+            this.modelUploaded=true;
         }
     }
 
@@ -105,8 +142,13 @@ public class SlideshowFragment extends Fragment {
         Address = root.findViewById(R.id.address_id);
         Phone_no = root.findViewById(R.id.mobile_no_id);
         Quantity = root.findViewById(R.id.quantity_id);
+        Description=root.findViewById(R.id.description_id);
+        Specification=root.findViewById(R.id.specification_id);
+        ImageCheck=root.findViewById(R.id.image_check_id);
+        ModelCheck=root.findViewById(R.id.model_check_id);
 
         ProductImage = root.findViewById(R.id.productImage_id);
+
 
         ChooseFile = root.findViewById(R.id.chooseFileBtn_id);
 
@@ -129,6 +171,7 @@ public class SlideshowFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+
                 String documentRef = UUID.randomUUID().toString();
 
                 String title = Title.getEditText().getText().toString();
@@ -136,6 +179,9 @@ public class SlideshowFragment extends Fragment {
                 String address = Address.getEditText().getText().toString();
                 String phone_no = Phone_no.getEditText().getText().toString();
                 String quantity = Quantity.getEditText().getText().toString();
+                String specification = Specification.getEditText().getText().toString();
+                String description=Description.getEditText().getText().toString();
+                String imageCheck=ImageCheck.getText().toString();
 
 
                 String userID = firebaseAuth.getCurrentUser().getUid();
@@ -153,8 +199,14 @@ public class SlideshowFragment extends Fragment {
                 productInfo.put("model_id",modelID);
                 productInfo.put("product_doc_ref",documentRef);
                 productInfo.put("postRef",postRef);
+                productInfo.put("specification",specification);
+                productInfo.put("description",description);
 
 
+                if(validate(imageCheck,title,price,address,phone_no,quantity,specification,description)==false){
+                    Toast.makeText(getContext(), "Fill all the forms", Toast.LENGTH_SHORT).show();
+                }
+                else{
 
 
 
@@ -191,7 +243,7 @@ public class SlideshowFragment extends Fragment {
 
                 uploadImage();
                 postGLb();
-
+                }
             }
         });
 

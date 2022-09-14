@@ -272,13 +272,23 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/error_message_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="this is error message"
+            android:textColor="#FF0000"
+            />
         <Button
+            android:layout_marginTop="10dp"
             android:id="@+id/registerBtn_id"
             android:layout_width="275dp"
             android:layout_height="53dp"
             android:background="#2FEE70"
             android:text="Signup"
-            android:layout_marginTop="20dp"
+
             android:layout_marginBottom="30dp"
             android:textColor="#ffff"
             />

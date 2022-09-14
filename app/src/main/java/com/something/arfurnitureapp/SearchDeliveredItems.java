@@ -91,10 +91,10 @@ public class SearchDeliveredItems extends AppCompatActivity {
 
             @Override
             protected void onBindViewHolder(@NonNull SearchDeliveredItems.OrderUsersListHolder holder, int position, @NonNull OrderedUsersModel model) {
-                holder.OrderedUserName.setText("Username: "+model.getUsername());
-                holder.Address.setText("Address: "+model.getAddress());
-                holder.Phone_no.setText("phone no"+model.getPhoneNo());
-                holder.OrderedUserQuantity.setText("Quantity :"+model.getOrdered_quantity());
+                holder.OrderedUserName.setText(""+model.getUsername());
+                holder.Address.setText(""+model.getAddress());
+                holder.Phone_no.setText(""+model.getPhoneNo());
+                holder.OrderedUserQuantity.setText(""+model.getOrdered_quantity());
 
                 String signature_path= model.getSignature_path();
 

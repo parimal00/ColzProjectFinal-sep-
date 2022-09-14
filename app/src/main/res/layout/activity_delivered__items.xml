@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+
+
     tools:context=".Delivered_Items">
 
     <LinearLayout
@@ -14,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
+        android:layout_marginTop="30dp"
         android:gravity="center"
        >
         <EditText
@@ -34,9 +36,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderList"
-
-        android:layout_width="371dp"
-        android:layout_height="607dp"
+        android:layout_width="334dp"
+        android:layout_height="577dp"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

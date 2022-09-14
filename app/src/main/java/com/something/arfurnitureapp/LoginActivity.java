@@ -53,9 +53,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if(firebaseAuth.getCurrentUser()!=null){
-
-
-
             DocumentReference df= fStore.collection("admins").document(firebaseAuth.getUid());
             df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -73,12 +70,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-
-
-
-//
-            DocumentReference dfu= fStore.collection("users").document(firebaseAuth.getUid());
-            dfu.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            DocumentReference du= fStore.collection("users").document(firebaseAuth.getUid());
+            du.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -86,17 +79,13 @@ public class LoginActivity extends AppCompatActivity {
                         if (document.exists()) {
                             startActivity(new Intent(getApplicationContext(), NewsFeedActivity.class));
                         } else {
-
+                            Log.d("firebase_auth_id",firebaseAuth.getUid());
                         }
                     } else {
 
                     }
                 }
             });
-
-
-
-
         }
 
 
