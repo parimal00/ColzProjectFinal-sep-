@@ -23,8 +23,8 @@ public class AdminHomeActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         AllUsers=findViewById(R.id.all_users_id);
-        AllOrders=findViewById(R.id.all_orders_id);
-        AllItems=findViewById(R.id.all_items_d);
+//        AllOrders=findViewById(R.id.all_orders_id);
+//        AllItems=findViewById(R.id.all_items_d);
         Logout=findViewById(R.id.admin_logout_id);
 
         Logout.setOnClickListener(new View.OnClickListener() {
@@ -43,19 +43,19 @@ public class AdminHomeActivity extends AppCompatActivity {
             }
         });
 
-        AllOrders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        AllItems.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),AllProducts.class);
-                startActivity(intent);
-            }
-        });
+//        AllOrders.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+//
+//        AllItems.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(),AllProducts.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 }

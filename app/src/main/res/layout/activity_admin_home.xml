@@ -39,25 +39,25 @@
         android:layout_margin="5dp"
         />
 
-        <Button
-            android:id="@+id/all_items_d"
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:background="#2FEE70"
-            android:layout_margin="5dp"
-            android:layout_height="wrap_content"
-            android:textColor="#ffff"
-            android:text="all items" />
+<!--        <Button-->
+<!--            android:id="@+id/all_items_d"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="0.2"-->
+<!--            android:background="#2FEE70"-->
+<!--            android:layout_margin="5dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="#ffff"-->
+<!--            android:text="all items" />-->
 
-        <Button
-            android:id="@+id/all_orders_id"
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:textColor="#ffff"
-            android:background="#2FEE70"
-            android:layout_margin="5dp"
-            android:layout_height="wrap_content"
-            android:text="all orders" />
+<!--        <Button-->
+<!--            android:id="@+id/all_orders_id"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="0.2"-->
+<!--            android:textColor="#ffff"-->
+<!--            android:background="#2FEE70"-->
+<!--            android:layout_margin="5dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="all orders" />-->
     </LinearLayout>
 
 

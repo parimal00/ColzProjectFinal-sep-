@@ -10,6 +10,16 @@ public  class ProductModel {
     String phone_no;
     String specification;
     String description;
+    String disable;
+
+    public String getDisable() {
+        return disable;
+    }
+
+    public void setDisable(String disable) {
+        this.disable = disable;
+    }
+
 
     public String getSpecification() {
         return specification;

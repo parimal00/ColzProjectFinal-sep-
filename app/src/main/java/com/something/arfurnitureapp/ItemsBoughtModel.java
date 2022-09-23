@@ -7,6 +7,7 @@ public class ItemsBoughtModel {
     }
 
     String postedUserId;
+    String product_doc_ref;
 
     public String getPostedUserId() {
         return postedUserId;
@@ -15,6 +16,15 @@ public class ItemsBoughtModel {
     public void setPostedUserId(String postedUserId) {
         this.postedUserId = postedUserId;
     }
+
+    public String getProduct_doc_ref() {
+        return product_doc_ref;
+    }
+
+    public void setProduct_doc_ref(String product_doc_ref) {
+        this.product_doc_ref = product_doc_ref;
+    }
+
 
     public String getImage_name() {
         return image_name;
@@ -53,13 +63,14 @@ public class ItemsBoughtModel {
     String ordered_quantity;
 
 
-    public ItemsBoughtModel(String image_name, String price, String productName, String documentRef, String postedUserId, String ordered_quantity) {
+    public ItemsBoughtModel(String image_name, String price, String productName, String documentRef, String postedUserId, String ordered_quantity, String product_doc_ref) {
         this.image_name = image_name;
         this.price = price;
         this.productName = productName;
         this.documentRef = documentRef;
         this.postedUserId = postedUserId;
         this.ordered_quantity = ordered_quantity;
+        this.product_doc_ref=product_doc_ref;
 
     }
 

@@ -98,6 +98,8 @@ public class Delivered_Items extends AppCompatActivity {
                 holder.Address.setText(" "+model.getAddress());
                 holder.Phone_no.setText(""+model.getPhoneNo());
                 holder.OrderedUserQuantity.setText(""+model.getOrdered_quantity());
+                holder.ProductId.setText(""+model.getProduct_doc_ref());
+
 
                String signature_path= model.getSignature_path();
 
@@ -114,7 +116,8 @@ public class Delivered_Items extends AppCompatActivity {
                                     Log.d("quantityzzzzz",documentSnapshot.getString("quantity"));
                                     quantity = Integer.parseInt(documentSnapshot.getString("quantity"));
 
-
+                                    holder.ProductPrice.setText(""+documentSnapshot.getString("price"));
+                                    holder.ProductName.setText(""+documentSnapshot.getString("title"));
                                 }
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -173,7 +176,7 @@ public class Delivered_Items extends AppCompatActivity {
     }
     private class OrderUsersListHolder extends  RecyclerView.ViewHolder {
 
-        TextView OrderedUserName,Phone_no,Address,OrderedUserQuantity;
+        TextView OrderedUserName,Phone_no,Address,OrderedUserQuantity,ProductId,ProductName,ProductPrice;
         ImageView productImage;
         Button ViewSignature;
 
@@ -188,7 +191,9 @@ public class Delivered_Items extends AppCompatActivity {
             Address = itemView.findViewById(R.id.orderedUser_address_id);
             OrderedUserQuantity = itemView.findViewById(R.id.orderedUser_quantity_id);
             ViewSignature=itemView.findViewById(R.id.view_signature_id);
-
+            ProductId=itemView.findViewById(R.id.product_id_id);
+            ProductName=itemView.findViewById(R.id.product_name_id);
+            ProductPrice=itemView.findViewById(R.id.product_price_id);
 
 
 

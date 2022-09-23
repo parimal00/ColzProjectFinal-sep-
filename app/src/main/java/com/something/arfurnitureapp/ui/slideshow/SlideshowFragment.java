@@ -62,34 +62,38 @@ public class SlideshowFragment extends Fragment {
     FirebaseAuth firebaseAuth;
     private StorageReference mStorageRef;
 
-    Boolean validate(String imageCheck,String title,String price,String address,String phone_no,String quantity,String specification,String description){
+    Boolean validate(String imageCheck,String title,String price,String address,String phone_no,String quantity,String specification,String description, String modelCheck){
+        boolean status=true;
 
-        if (imageCheck.length()>0) {
-            return true;
+        if (imageCheck.length()==0) {
+            status=false;
         }
-        if (title.length()>0) {
-            return true;
+        else if (modelCheck.length()==0) {
+            status=false;
         }
-        if (price.length()>0) {
-            return true;
+       else if (title.length()==0) {
+            status=false;
         }
-        if (address.length()>0) {
-            return true;
+        else if (price.length()==0) {
+            status=false;
         }
-        if (phone_no.length()>0) {
-            return true;
+        else if (address.length()==0) {
+            status=false;
         }
-        if (quantity.length()>0) {
-            return true;
+        else if (phone_no.length()==0) {
+            status=false;
         }
-        if (specification.length()>0) {
-            return true;
+        else if (quantity.length()==0) {
+            status=false;
         }
-        if (description.length()>0) {
-            return true;
+        else if (specification.length()==0) {
+            status=false;
+        }
+        else if (description.length()==0) {
+            status=false;
         }
 
-        return false;
+        return status;
 
     }
     @Override
@@ -182,10 +186,10 @@ public class SlideshowFragment extends Fragment {
                 String specification = Specification.getEditText().getText().toString();
                 String description=Description.getEditText().getText().toString();
                 String imageCheck=ImageCheck.getText().toString();
+                String modelCheck=ModelCheck.getText().toString();
 
 
                 String userID = firebaseAuth.getCurrentUser().getUid();
-                Log.d("idd bitchh", userID);
                 String postRef = UUID.randomUUID().toString();
 
                 Map<Object, String> productInfo = new HashMap<>();
@@ -201,16 +205,14 @@ public class SlideshowFragment extends Fragment {
                 productInfo.put("postRef",postRef);
                 productInfo.put("specification",specification);
                 productInfo.put("description",description);
+                productInfo.put("is_deleted","false");
+                productInfo.put("disable","false");
 
 
-                if(validate(imageCheck,title,price,address,phone_no,quantity,specification,description)==false){
+                if(validate(imageCheck,title,price,address,phone_no,quantity,specification,description,modelCheck)==false){
                     Toast.makeText(getContext(), "Fill all the forms", Toast.LENGTH_SHORT).show();
                 }
                 else{
-
-
-
-
                 firebaseFirestore.collection("users").document(userID).collection("myPosts")
                         .document(postRef)
                         .set(productInfo)

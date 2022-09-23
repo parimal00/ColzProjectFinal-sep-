@@ -37,6 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.something.arfurnitureapp.ItemsBoughtModel;
 import com.something.arfurnitureapp.OrderedUsersModel;
+import com.something.arfurnitureapp.ProductDetailsActivity;
 import com.something.arfurnitureapp.R;
 import com.something.arfurnitureapp.ui.tools.ToolsFragment;
 
@@ -91,6 +92,7 @@ public class ShareFragment extends Fragment {
                 holder.Quantity.setText(""+model.getOrdered_quantity());
                 holder.Price.setText(""+ model.getPrice());
                 holder.Name.setText("" +model.getProductName());
+                holder.ProductID.setText(""+model.getProduct_doc_ref());
 
                 DocumentReference documentReference = firebaseFirestore.collection("users").document(model.getPostedUserId());
 
@@ -107,6 +109,32 @@ public class ShareFragment extends Fragment {
 
                     }
                 });
+
+                DocumentReference productRef = firebaseFirestore.collection("products").document(model.getProduct_doc_ref());
+
+
+                productRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        // Log.d("check profile mann",documentSnapshot.getString("name"));
+//                        Name.setText(documentSnapshot.getString("name"));
+//                        Address.setText(documentSnapshot.getString("address"));
+//                        Phone_no.setText(documentSnapshot.getString("phone_no"));
+                        Log.d("is_delted_let",documentSnapshot.getString("is_deleted"));
+                        String status=documentSnapshot.getString("is_deleted");
+                        Log.d("stausCheck",status);
+                        if(status.equals("true")){
+                            Log.d("checkMan",documentSnapshot.getString("is_deleted"));
+                            holder.ErrorView.setText("this product is unavailable");
+                        }
+
+
+                    }
+                });
+
+
+
+                Log.d("product_doc_ref_let",model.getProduct_doc_ref());
 
                 holder.CancelOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -184,7 +212,7 @@ public class ShareFragment extends Fragment {
 
     private class ItemsBoughtHolder extends RecyclerView.ViewHolder {
 
-        TextView textView, Name, Price, Quantity,SellerName,SellerNo;
+        TextView textView, Name, Price, Quantity,SellerName,SellerNo,ErrorView,ProductID;
         ImageView imageView;
         Button CancelOrder;
 
@@ -201,6 +229,8 @@ public class ShareFragment extends Fragment {
             Name= itemView.findViewById(R.id.itemsBought_itemName_id);
             Price = itemView.findViewById(R.id.itemsBought_price_id);
             Quantity = itemView.findViewById(R.id.itemsBought_quantity_id);
+            ErrorView=itemView.findViewById(R.id.errorView_id);
+            ProductID=itemView.findViewById(R.id.product_id_id);
         }
     }
 

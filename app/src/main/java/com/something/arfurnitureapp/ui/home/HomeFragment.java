@@ -45,6 +45,7 @@ import com.something.arfurnitureapp.MainActivity;
 import com.something.arfurnitureapp.ProductModel;
 import com.something.arfurnitureapp.R;
 import com.something.arfurnitureapp.ViewDescription;
+import com.something.arfurnitureapp.ViewReviewsActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -127,7 +128,7 @@ public class HomeFragment extends Fragment {
 
 
 
-        Query query = firebaseFirestore.collection("products");
+        Query query = firebaseFirestore.collection("products").whereEqualTo("is_deleted","false").whereEqualTo("disable","false");
 
         FirestoreRecyclerOptions<ProductModel> options = new FirestoreRecyclerOptions.Builder<ProductModel>().setQuery(query,ProductModel.class).build();
 
@@ -147,7 +148,15 @@ public class HomeFragment extends Fragment {
                 holder.Address.setText(""+model.getAddresss());
                 holder.ContactNumber.setText(""+model.getPhone_no());
                 holder.Quantity.setText(""+model.getQuantity());
-
+                holder.ViewReview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("view_review","pressed");
+                        Intent intent=new Intent(getContext(), ViewReviewsActivity.class);
+                        intent.putExtra("product_id",model.getProduct_doc_ref());
+                        startActivity(intent);
+                    }
+                });
 
 
 
@@ -366,6 +375,7 @@ public class HomeFragment extends Fragment {
         Button ShowAR,ViewSpecification;
         Button BuyBtn;
         Button Delete;
+        Button ViewReview;
 
 
         public ProductViewHolder(@NonNull View itemView) {
@@ -383,6 +393,7 @@ public class HomeFragment extends Fragment {
             ShowAR=itemView.findViewById(R.id.showARBtn_id);
             BuyBtn = itemView.findViewById(R.id.buyBtn_id);
             OrderedQuantity = itemView.findViewById(R.id.orderedQuantity_id);
+            ViewReview=itemView.findViewById(R.id.view_review_id);
 
 
 

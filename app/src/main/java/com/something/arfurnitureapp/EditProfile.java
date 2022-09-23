@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
@@ -62,26 +63,32 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                ProgressDialog pd = new ProgressDialog(view.getContext());
-                pd.setTitle("Editing ...");
-                pd.show();
+
 
                 String name=Name.getText().toString().replace(" ", "");
                 String address=Address.getText().toString().replace(" ", "");
                 String phone_no=Phone_no.getText().toString().replace(" ", "");
 
-                firebaseFirestore.collection("users")
-                        .document(userID)
-                        .update("name",name,"address",address)
+                if(name.length()>0&&address.length()>0&&phone_no.length()>0) {
+                    ProgressDialog pd = new ProgressDialog(view.getContext());
+                    pd.setTitle("Editing ...");
+                    pd.show();
+                    firebaseFirestore.collection("users")
+                            .document(userID)
+                            .update("name", name, "address", address)
 
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("hello there","success");
-                                pd.setTitle("Success");
-                                startActivity(new Intent(getApplicationContext(),NewsFeedActivity.class));
-                            }
-                        });
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("hello there", "success");
+                                    pd.setTitle("Success");
+                                    startActivity(new Intent(getApplicationContext(), NewsFeedActivity.class));
+                                }
+                            });
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"fill all the forms",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -3,6 +3,7 @@ package com.something.arfurnitureapp.ui.tools;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.util.Log;
@@ -40,6 +41,7 @@ import com.google.firebase.storage.StorageReference;
 import com.something.arfurnitureapp.ARActivity;
 import com.something.arfurnitureapp.DigitalSignature;
 import com.something.arfurnitureapp.OrderedUsersModel;
+import com.something.arfurnitureapp.ProductDetailsActivity;
 import com.something.arfurnitureapp.ProductModel;
 import com.something.arfurnitureapp.R;
 import com.something.arfurnitureapp.ui.home.HomeFragment;
@@ -58,7 +60,10 @@ public class ToolsFragment extends Fragment {
     StorageReference mStorageRef;
     Bitmap bitmap;
     int quantity;
-
+    String productName;
+    String specification;
+    String description;
+    String status;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -96,8 +101,10 @@ public class ToolsFragment extends Fragment {
                 holder.Address.setText(""+model.getAddress());
                 holder.Phone_no.setText(""+model.getPhoneNo());
                 holder.OrderedUserQuantity.setText(""+model.getOrdered_quantity());
+                holder.ProductId.setText(""+model.getProduct_doc_ref());
 
                 String  image_name = model.getImage_name();
+
 
 
 
@@ -109,7 +116,17 @@ public class ToolsFragment extends Fragment {
                                 if(documentSnapshot.exists()){
                                     Log.d("quantityzzzzz",documentSnapshot.getString("quantity"));
                                     quantity = Integer.parseInt(documentSnapshot.getString("quantity"));
+                                    productName=documentSnapshot.getString("title");
+                                   specification=documentSnapshot.getString("specification");
+                                    description=documentSnapshot.getString("description");
+                                    status=documentSnapshot.getString("is_deleted");
 
+                                    if(status.equals("true")){
+                                        holder.Delivered_Item.setEnabled(false);
+                                        holder.ErrorView.setText("you have deleted this item");
+                                    }
+
+                                    Log.d("productName",productName+specification+description+status);
 
                                 }
                             }
@@ -224,7 +241,17 @@ public class ToolsFragment extends Fragment {
                 });
                // Log.d("waaaaaaaaaaaaaaaa","waaaaaaaaaaaaaaaaaaaaaa");
 
-
+                holder.ViewProductDetails.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                            Intent intent = new Intent(getContext(), ProductDetailsActivity.class);
+                            intent.putExtra("productName",productName);
+                            intent.putExtra("specification",specification);
+                            intent.putExtra("description",description);
+                            intent.putExtra("status",status);
+                            startActivity(intent);
+                    }
+                });
 
                 try {
                     final File localFile = File.createTempFile("images", "jpg");
@@ -266,9 +293,9 @@ public class ToolsFragment extends Fragment {
 
     private class OrderUsersListHolder extends  RecyclerView.ViewHolder {
 
-        TextView OrderedUserName,Phone_no,Address,OrderedUserQuantity;
+        TextView OrderedUserName,Phone_no,Address,OrderedUserQuantity,ErrorView,ProductId;
         ImageView productImage;
-        Button Delivered_Item;
+        Button Delivered_Item,ViewProductDetails;
 
 
         public OrderUsersListHolder(@NonNull View itemView) {
@@ -280,7 +307,9 @@ public class ToolsFragment extends Fragment {
                 Address = itemView.findViewById(R.id.orderedUser_address_id);
                 OrderedUserQuantity = itemView.findViewById(R.id.orderedUser_quantity_id);
                 Delivered_Item = itemView.findViewById(R.id.item_delivered_id);
-
+                ErrorView=itemView.findViewById(R.id.errorView_id);
+                ViewProductDetails=itemView.findViewById(R.id.product_details_id);
+                ProductId=itemView.findViewById(R.id.product_id_id);
 
 
 

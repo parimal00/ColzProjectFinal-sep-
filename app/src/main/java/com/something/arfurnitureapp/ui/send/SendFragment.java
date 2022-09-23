@@ -1,5 +1,6 @@
 package com.something.arfurnitureapp.ui.send;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.google.firebase.storage.StorageReference;
 import com.something.arfurnitureapp.DialogBox;
 import com.something.arfurnitureapp.ItemsBoughtModel;
 import com.something.arfurnitureapp.MyPostsModel;
+import com.something.arfurnitureapp.NewsFeedActivity;
 import com.something.arfurnitureapp.R;
 import com.something.arfurnitureapp.ui.share.ShareFragment;
 
@@ -88,12 +90,11 @@ public class SendFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull MyPostsHolder holder, int position, @NonNull MyPostsModel model) {
 
-            holder.Item_Name.setText("Item name: "+model.getTitle());
-            Log.d("waaaaa","waaaaaaaaaaaaaaaa");
-
-            holder.Quantity.setText("Quantity :" +model.getQuantity());
-            holder.Phone_no.setText("Phone no : "+model.getPhone_no());
-
+            holder.Item_Name.setText(""+model.getTitle());
+            holder.Quantity.setText("" +model.getQuantity());
+            holder.Phone_no.setText(""+model.getPhone_no());
+            holder.ProductPrice.setText(""+model.getPrice());
+            holder.ProductId.setText(""+model.getProduct_doc_ref());
             String image_name = model.getImage_name();
                 try {
                     final File localFile = File.createTempFile("images", "jpg");
@@ -120,19 +121,16 @@ public class SendFragment extends Fragment {
                     public void onClick(View view) {
                         String documentRef = model.getProduct_doc_ref();
 
-                        firebaseFirestore.collection("products").document(documentRef).delete()
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Log.d("sexy","waaaaaaaa");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("sexy","bitch");
-                            }
-                        });
+                        firebaseFirestore.collection("products").document(documentRef).update("is_deleted","true")
 
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("hello there","success");
+
+
+                                    }
+                                });
                         firebaseFirestore.collection("users").document(userID).collection("myPosts").document(model.getPostRef()).delete()
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -171,7 +169,7 @@ public class SendFragment extends Fragment {
 
     private class MyPostsHolder extends RecyclerView.ViewHolder {
 
-        TextView Item_Name,Phone_no, Quantity;
+        TextView Item_Name,Phone_no, Quantity, ProductPrice,ProductId;
         ImageView MyPost_image;
         Button DeletePost;
 
@@ -186,6 +184,8 @@ public class SendFragment extends Fragment {
            MyPost_image = itemView.findViewById(R.id.myPost_image_id);
 
            DeletePost = itemView.findViewById(R.id.deletePost_id);
+           ProductPrice=itemView.findViewById(R.id.product_price_id);
+           ProductId=itemView.findViewById(R.id.product_id_id);
         }
     }
     @Override

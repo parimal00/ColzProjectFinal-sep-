@@ -88,9 +88,9 @@ public class GalleryFragment extends Fragment {
             }
         });
 
-        Name.setText("jack is sexy");
-        Address.setText("jack is sexy");
-        Phone_no.setText("jack is sexy");
+//        Name.setText("jack is sexy");
+//        Address.setText("jack is sexy");
+//        Phone_no.setText("jack is sexy");
 
 
 

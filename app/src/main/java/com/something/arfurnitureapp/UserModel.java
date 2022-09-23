@@ -8,11 +8,11 @@ public class UserModel {
     String username;
     String user_id;
     String email;
-    Boolean disable;
+    String disable;
     private  UserModel(){
 
     }
-    private  UserModel(String name,String address,String phone_no,String username,String user_id,String email,Boolean disable){
+    private  UserModel(String name,String address,String phone_no,String username,String user_id,String email,String disable){
         this.name=name;
         this.address=address;
         this.phone_no=phone_no;
@@ -22,10 +22,10 @@ public class UserModel {
         this.disable=disable;
     }
 
-    public  Boolean getDisable(){
+    public  String getDisable(){
         return disable;
     }
-    public  void setDisable(Boolean disable){
+    public  void setDisable(String disable){
         this.disable=disable;
     }
 
@@ -46,11 +46,11 @@ public class UserModel {
     }
 
 
-    public String getAddresss() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddresss(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -66,7 +66,7 @@ public class UserModel {
         return username;
     }
 
-    public void setUsername(String model_id) {
+    public void setUsername(String username) {
         this.username = username;
     }
 

@@ -21,7 +21,7 @@
         android:id="@+id/email_id"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="275dp"
-        android:layout_height="60dp"
+        android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
 
 
@@ -32,13 +32,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="14dp"
+            android:id="@+id/report_text_id"
             android:hint="damaged items got delivered!"></com.google.android.material.textfield.TextInputEditText>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:layout_marginTop="10dp"
-        android:id="@+id/loginBtn_id"
+        android:id="@+id/sendReport"
         android:layout_width="275dp"
         android:layout_height="53dp"
         android:background="#2FEE70"

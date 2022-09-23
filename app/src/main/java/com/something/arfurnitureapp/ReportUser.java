@@ -2,8 +2,12 @@ package com.something.arfurnitureapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -14,25 +18,28 @@ import java.util.Map;
 
 public class ReportUser extends AppCompatActivity {
     FirebaseFirestore fStore;
+    EditText Report;
+    Button SendReport;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_user);
 
-        fStore = FirebaseFirestore.getInstance();
-
-
-        DocumentReference documentReference = fStore.collection("reports").document("user_id");
-
-        Map<Object,String> report = new HashMap<>();
-        report.put("report_detail","detail");
-
-
-        documentReference.set(report).addOnSuccessListener(new OnSuccessListener<Void>() {
+        Intent intent = getIntent();
+     String product_id= intent.getStringExtra("product_id");
+        Report=findViewById(R.id.report_text_id);
+//
+        SendReport=findViewById(R.id.sendReport);
+        SendReport.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("succceess!!! ","User addedd waaaaaaaaaa");
+            public void onClick(View view) {
+                String report_text=Report.getText().toString();
+//
+
+
             }
         });
+
+
     }
 }

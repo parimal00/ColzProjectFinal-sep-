@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,13 +20,18 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +61,9 @@ public class SearchActivity extends AppCompatActivity {
 
     Button Search;
     EditText Search_field;
+    String id;
+    ArrayList<String> ids=new ArrayList<String>();//Creating arraylist
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,16 +102,54 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull SearchActivity.UserViewHolder holder, int position, @NonNull UserModel model) {
                 holder.Name.setText(model.getName());
+                holder.Email.setText(""+model.getEmail());
+                holder.Address.setText(""+model.getAddress());
+                if(model.getDisable().equals("true")){
+                    holder.Status.setText("disabled");
+                    holder.Status.setTextColor(Color.RED);
+                }else{
+                    holder.Status.setText("enabled");
+                    holder.Status.setTextColor(Color.GREEN);
+                }
+                holder.Contact_no.setText(""+model.getPhone_no());
 
-                Map<Object,Boolean> userMap = new HashMap<>();
-                userMap.put("disbled",false);
-                holder.DisableUser.setOnClickListener(new View.OnClickListener() {
+
+                holder.EnableUser.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("hello_user_id",model.getUser_id());
+                        firebaseFirestore.collection("products")
+                                .whereEqualTo("userID",model.getUser_id())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                id=document.getId();
+                                                ids.add(id);
+
+                                                firebaseFirestore.collection("products")
+                                                        .document(id)
+                                                        .update("disable","false")
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d("hello there","success");
+                                                            }
+                                                        });
+
+                                            }
+
+                                            Log.d("check_me",""+ids.size());
+                                        } else {
+                                            Log.d("TAG", "Error getting documents: ", task.getException());
+                                        }
+                                    }
+                                });
+
                         firebaseFirestore.collection("users")
                                 .document(model.getUser_id())
-                                .update("disable",true)
+                                .update("disable","false")
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -110,14 +157,61 @@ public class SearchActivity extends AppCompatActivity {
                                     }
                                 });
 
+                    }
+
+
+                });
+                holder.DisableUser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        firebaseFirestore.collection("products")
+                                .whereEqualTo("userID",model.getUser_id())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                id=document.getId();
+                                                ids.add(id);
+
+                                                firebaseFirestore.collection("products")
+                                                        .document(id)
+                                                        .update("disable","true")
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d("hello there","success");
+                                                            }
+                                                        });
+
+                                            }
+
+                                            Log.d("check_me",""+ids.size());
+                                        } else {
+                                            Log.d("TAG", "Error getting documents: ", task.getException());
+                                        }
+                                    }
+                                });
+
+                        firebaseFirestore.collection("users")
+                                .document(model.getUser_id())
+                                .update("disable","true")
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("hello there","success");
+                                    }
+                                });
 
                     }
+
+
                 });
 
 
 
 
-                //  Log.d("sexy",model.getName());
 
 
 
@@ -131,23 +225,27 @@ public class SearchActivity extends AppCompatActivity {
     }
     private  class UserViewHolder extends  RecyclerView.ViewHolder {
 
-        public TextView Name;
+        public TextView Name,Address,Contact_no,Phone_no,Email,Status;
         EditText OrderedQuantity;
         public TextView Price,Quantity;
         public ImageView ProductImage;
         Button ShowAR;
         Button BuyBtn;
-        Button Delete,DisableUser;
+        Button Delete,DisableUser,EnableUser;
 
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
 
+
+
             Name = itemView.findViewById(R.id.name_id);
+            Address=itemView.findViewById(R.id.address_id);
+            Contact_no=itemView.findViewById(R.id.contact_no_id);
+            Email=itemView.findViewById(R.id.email_id);
             DisableUser=itemView.findViewById(R.id.disableUser_id);
-
-
-
+            Status=itemView.findViewById(R.id.status_id);
+            EnableUser=itemView.findViewById(R.id.enable_user_id);
 
 
 

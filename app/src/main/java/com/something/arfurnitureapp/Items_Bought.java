@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -81,6 +82,24 @@ public class Items_Bought extends AppCompatActivity {
                 holder.Quantity.setText(""+model.getOrdered_quantity());
                 holder.Price.setText(" "+ model.getPrice());
                 holder.Name.setText("" +model.getProductName());
+                holder.ProductId.setText(""+model.getProduct_doc_ref());
+                holder.SendReview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(),SendReviewActivity.class);
+                        intent.putExtra("product_id",model.getProduct_doc_ref());
+                        startActivity(intent);
+                    }
+                });
+
+                holder.ReportUser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent(getApplicationContext(),ReportUser.class);
+                        intent.putExtra("product_id",model.getProduct_doc_ref());
+                        startActivity(intent);
+                    }
+                });
 
 
                 DocumentReference documentReference = firebaseFirestore.collection("users").document(model.getPostedUserId());
@@ -134,8 +153,9 @@ public class Items_Bought extends AppCompatActivity {
     }
     private class ItemsBoughtHolder extends RecyclerView.ViewHolder {
 
-        TextView textView, Name, Price, Quantity,SellerName,SellerNo;
+        TextView textView, Name, Price, Quantity,SellerName,SellerNo,ProductId;
         ImageView imageView;
+        Button SendReview,ReportUser;
 
 
 
@@ -151,6 +171,9 @@ public class Items_Bought extends AppCompatActivity {
             Name= itemView.findViewById(R.id.itemsBought_itemName_id);
             Price = itemView.findViewById(R.id.itemsBought_price_id);
             Quantity = itemView.findViewById(R.id.itemsBought_quantity_id);
+            ProductId=itemView.findViewById(R.id.product_id_id);
+            SendReview=itemView.findViewById(R.id.send_review_id);
+            ReportUser=itemView.findViewById(R.id.report_user_id);
         }
     }
 

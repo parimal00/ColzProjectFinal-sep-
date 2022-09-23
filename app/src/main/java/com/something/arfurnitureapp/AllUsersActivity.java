@@ -1,45 +1,47 @@
-package com.something.arfurnitureapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+        package com.something.arfurnitureapp;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+        import androidx.annotation.NonNull;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+        import android.content.Intent;
+        import android.graphics.Bitmap;
+        import android.graphics.BitmapFactory;
+        import android.graphics.Color;
+        import android.graphics.ColorSpace;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.ImageView;
+        import android.widget.TextView;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+        import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+        import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.OnSuccessListener;
+        import com.google.android.gms.tasks.Task;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.firestore.DocumentReference;
+        import com.google.firebase.firestore.DocumentSnapshot;
+        import com.google.firebase.firestore.FirebaseFirestore;
+        import com.google.firebase.firestore.Query;
+        import com.google.firebase.firestore.QueryDocumentSnapshot;
+        import com.google.firebase.firestore.QuerySnapshot;
+        import com.google.firebase.storage.FileDownloadTask;
+        import com.google.firebase.storage.FirebaseStorage;
+        import com.google.firebase.storage.StorageReference;
+
+        import java.io.File;
+        import java.io.IOException;
+        import java.util.ArrayList;
+        import java.util.HashMap;
+        import java.util.Map;
 
 public class AllUsersActivity extends AppCompatActivity {
 
@@ -98,7 +100,7 @@ public class AllUsersActivity extends AppCompatActivity {
         Query query = firebaseFirestore.collection("users");
 
         FirestoreRecyclerOptions<UserModel> options = new FirestoreRecyclerOptions.Builder<UserModel>().setQuery(query,UserModel.class).build();
-        Log.d("test2","hello there");
+
 
         adapter = new FirestoreRecyclerAdapter<UserModel, AllUsersActivity.UserViewHolder>(options) {
 
@@ -114,26 +116,22 @@ public class AllUsersActivity extends AppCompatActivity {
 
             @Override
             protected void onBindViewHolder(@NonNull AllUsersActivity.UserViewHolder holder, int position, @NonNull UserModel model) {
-                holder.Name.setText(model.getName());
-                holder.Contact_no.setText(model.getPhone_no());
-                holder.Email.setText(model.getEmail());
-                holder.Address.setText(model.getAddresss());
-                if(String.valueOf(model.getDisable()).equals("true")){
-                    holder.Status.setText("not active");
-                    holder.Status.setTextColor(Color.rgb(255, 0, 0));
+            holder.Name.setText(""+model.getName());
+            holder.Email.setText(""+model.getEmail());
+            holder.Address.setText(""+model.getAddress());
+            if(model.getDisable().equals("true")){
+                holder.Status.setText("disabled");
+                holder.Status.setTextColor(Color.RED);
+            }else{
+                holder.Status.setText("enabled");
+                holder.Status.setTextColor(Color.GREEN);
+            }
+            holder.Contact_no.setText(""+model.getPhone_no());
 
-                }else{
-                    holder.Status.setText("active");
 
-                }
-                Log.d("status_code_waa",String.valueOf(model.getDisable()));
-                Map<Object,Boolean> userMap = new HashMap<>();
-                userMap.put("disbled",false);
-                holder.DisableUser.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d("hello_user_id",model.getUser_id());
-
+            holder.EnableUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     firebaseFirestore.collection("products")
                             .whereEqualTo("userID",model.getUser_id())
                             .get()
@@ -144,11 +142,10 @@ public class AllUsersActivity extends AppCompatActivity {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             id=document.getId();
                                             ids.add(id);
-                                            Log.d("waaaaaa",""+ids.size());
 
                                             firebaseFirestore.collection("products")
                                                     .document(id)
-                                                    .update("disable",true)
+                                                    .update("disable","false")
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
@@ -165,27 +162,23 @@ public class AllUsersActivity extends AppCompatActivity {
                                 }
                             });
 
+                    firebaseFirestore.collection("users")
+                            .document(model.getUser_id())
+                            .update("disable","false")
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("hello there","success");
+                                }
+                            });
+
+                }
 
 
-                        firebaseFirestore.collection("users")
-                                .document(model.getUser_id())
-                                .update("disable",true)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("hello there","success");
-                                    }
-                                });
-
-
-                    }
-                });
-
-                holder.EnableUser.setOnClickListener(new View.OnClickListener() {
+            });
+                holder.DisableUser.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("enable_pressed","pressed");
-
                         firebaseFirestore.collection("products")
                                 .whereEqualTo("userID",model.getUser_id())
                                 .get()
@@ -196,11 +189,10 @@ public class AllUsersActivity extends AppCompatActivity {
                                             for (QueryDocumentSnapshot document : task.getResult()) {
                                                 id=document.getId();
                                                 ids.add(id);
-                                                Log.d("waaaaaa",""+ids.size());
 
                                                 firebaseFirestore.collection("products")
                                                         .document(id)
-                                                        .update("disable",false)
+                                                        .update("disable","true")
                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
                                                             public void onSuccess(Void aVoid) {
@@ -219,7 +211,7 @@ public class AllUsersActivity extends AppCompatActivity {
 
                         firebaseFirestore.collection("users")
                                 .document(model.getUser_id())
-                                .update("disable",false)
+                                .update("disable","true")
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -228,15 +220,9 @@ public class AllUsersActivity extends AppCompatActivity {
                                 });
 
                     }
+
+
                 });
-
-
-
-              //  Log.d("sexy",model.getName());
-
-
-
-
             }
         };
 
@@ -261,7 +247,6 @@ public class AllUsersActivity extends AppCompatActivity {
             Name = itemView.findViewById(R.id.name_id);
             Address=itemView.findViewById(R.id.address_id);
             Contact_no=itemView.findViewById(R.id.contact_no_id);
-            Phone_no=itemView.findViewById(R.id.phone_no_id);
             Email=itemView.findViewById(R.id.email_id);
             DisableUser=itemView.findViewById(R.id.disableUser_id);
             Status=itemView.findViewById(R.id.status_id);
