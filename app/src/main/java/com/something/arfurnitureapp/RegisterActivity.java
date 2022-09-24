@@ -178,6 +178,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 user.put("user_id",userID);
                                 user.put("email",email);
                                 user.put("disable","false");
+                                user.put("report_count","0");
 
                                 documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

@@ -28,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -48,6 +50,7 @@ public class Delivered_Items extends AppCompatActivity {
     int quantity;
     Button Search;
     EditText Email;
+    TextView Error;
 
 
 
@@ -58,6 +61,7 @@ public class Delivered_Items extends AppCompatActivity {
 
         Email=findViewById(R.id.email_id_search);
         Search = findViewById(R.id.search_delivered_items_id);
+        Error = findViewById(R.id.error_id);
 
         Search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +91,29 @@ public class Delivered_Items extends AppCompatActivity {
         FirestoreRecyclerOptions<OrderedUsersModel> options = new FirestoreRecyclerOptions.Builder<OrderedUsersModel>().setQuery(query,OrderedUsersModel.class).build();
 
 
+        //if delivered is null show the error message
+
+        firebaseFirestore.collection("users").document(userID).collection("buyingUsers").whereEqualTo("item_delivered",true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int count=0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                count=count+1;
+
+                            }
+                            if(count==0){
+                                Error.setText("you have not delivered any items");
+                            }
+
+                        } else {
+
+                        }
+                    }
+                });
+//                        .
 
 
         adapter = new FirestoreRecyclerAdapter<OrderedUsersModel, Delivered_Items.OrderUsersListHolder>(options) {
@@ -107,6 +134,7 @@ public class Delivered_Items extends AppCompatActivity {
                 String buying_user_id=model.getBuying_user_id();
 
 
+
                 firebaseFirestore.collection("products").document(model.getProduct_doc_ref())
                         .get()
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -119,6 +147,7 @@ public class Delivered_Items extends AppCompatActivity {
                                     holder.ProductPrice.setText(""+documentSnapshot.getString("price"));
                                     holder.ProductName.setText(""+documentSnapshot.getString("title"));
                                 }
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override

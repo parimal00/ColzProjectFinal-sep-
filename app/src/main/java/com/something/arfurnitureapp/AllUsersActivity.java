@@ -71,6 +71,7 @@ public class AllUsersActivity extends AppCompatActivity {
     Button Search;
     EditText Search_field;
     String id;
+    int report_count;
     ArrayList<String> ids=new ArrayList<String>();//Creating arraylist
 
     @Override
@@ -128,7 +129,39 @@ public class AllUsersActivity extends AppCompatActivity {
             }
             holder.Contact_no.setText(""+model.getPhone_no());
 
+             report_count=0;
 
+            firebaseFirestore.collection("users").document(model.getUser_id()).collection("reports")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                    report_count=report_count+1;
+                                }
+                                if(report_count>5){
+                                    holder.ReportCount.setTextColor(Color.RED);
+                                }else{
+                                    holder.ReportCount.setTextColor(Color.GREEN);
+                                }
+                                holder.ReportCount.setText(""+report_count);
+                                report_count=0;
+
+                            } else {
+
+                            }
+                        }
+                    });
+            holder.ViewReports.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(),ViewReportsActivity.class);
+                    intent.putExtra("user_id",model.getUser_id());
+                    startActivity(intent);
+                }
+            });
             holder.EnableUser.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -232,13 +265,13 @@ public class AllUsersActivity extends AppCompatActivity {
     }
     private  class UserViewHolder extends  RecyclerView.ViewHolder {
 
-        public TextView Name,Address,Contact_no,Phone_no,Email,Status;
+        public TextView Name,Address,Contact_no,Phone_no,Email,Status,ReportCount;
         EditText OrderedQuantity;
         public TextView Price,Quantity;
         public ImageView ProductImage;
         Button ShowAR;
         Button BuyBtn;
-        Button Delete,DisableUser,EnableUser;
+        Button Delete,DisableUser,EnableUser,ViewReports;
 
 
         public UserViewHolder(@NonNull View itemView) {
@@ -251,7 +284,8 @@ public class AllUsersActivity extends AppCompatActivity {
             DisableUser=itemView.findViewById(R.id.disableUser_id);
             Status=itemView.findViewById(R.id.status_id);
             EnableUser=itemView.findViewById(R.id.enable_user_id);
-
+            ViewReports=itemView.findViewById(R.id.view_reports_id);
+            ReportCount=itemView.findViewById(R.id.report_count_id);
 
 
 

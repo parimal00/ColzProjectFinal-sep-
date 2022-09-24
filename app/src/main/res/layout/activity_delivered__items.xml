@@ -34,6 +34,13 @@
             android:layout_weight="0.3"/>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/error_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00F31818"
+        android:textAlignment="center"
+        android:textColor="#FF0000" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderList"
         android:layout_width="334dp"

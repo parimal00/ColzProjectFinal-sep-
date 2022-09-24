@@ -33,7 +33,7 @@
             android:layout_height="match_parent"
             android:textSize="14dp"
             android:id="@+id/report_text_id"
-            android:hint="damaged items got delivered!"></com.google.android.material.textfield.TextInputEditText>
+            android:hint="Write report here!"></com.google.android.material.textfield.TextInputEditText>
 
     </com.google.android.material.textfield.TextInputLayout>
 

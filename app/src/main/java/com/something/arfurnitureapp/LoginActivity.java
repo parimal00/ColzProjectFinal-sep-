@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
+
                             startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
                         } else {
 
@@ -77,7 +78,13 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            startActivity(new Intent(getApplicationContext(), NewsFeedActivity.class));
+                            if(document.getString("disable").equals("false") ){
+                                startActivity(new Intent(getApplicationContext(), NewsFeedActivity.class));
+                            }
+                            else{
+                                firebaseAuth.signOut();
+
+                            }
                         } else {
                             Log.d("firebase_auth_id",firebaseAuth.getUid());
                         }
@@ -150,8 +157,15 @@ public class LoginActivity extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             DocumentSnapshot document = task.getResult();
                                             if (document.exists()) {
+
                                                 pd.dismiss();
-                                                startActivity(new Intent(getApplicationContext(), NewsFeedActivity.class));
+                                                if(document.getString("disable").equals("false")) {
+                                                    startActivity(new Intent(getApplicationContext(), NewsFeedActivity.class));
+                                                }
+                                                else{
+                                                    firebaseAuth.signOut();
+                                                    Error.setText("This account is disabled");
+                                                }
                                             } else {
                                                 pd.dismiss();
                                                 Error.setText("incorrect email or password");

@@ -30,6 +30,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -46,6 +48,7 @@ public class Items_Bought extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     RecyclerView mfireStoreList;
     StorageReference mStorageRef;
+    TextView Error;
     Bitmap bitmap;
 
 
@@ -62,10 +65,34 @@ public class Items_Bought extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://fir-aoo-49890.appspot.com");
 
         String userID = firebaseAuth.getCurrentUser().getUid();
+        Error=findViewById(R.id.error_id);
 
         Log.d("waaaaaaaaaaaaaa", userID);
 
         Query query = firebaseFirestore.collection("users").document(userID).collection("itemsBought").whereEqualTo("item_bought",true);
+
+        firebaseFirestore.collection("users").document(userID).collection("itemsBought").whereEqualTo("item_bought",true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int count=0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                count=count+1;
+
+                            }
+                            if(count==0){
+                                Error.setText("you have not bought any items");
+                            }
+
+                        } else {
+
+                        }
+                    }
+                });
+//                        .
+
 
 
         FirestoreRecyclerOptions<ItemsBoughtModel> options = new FirestoreRecyclerOptions.Builder<ItemsBoughtModel>().setQuery(query, ItemsBoughtModel.class).build();
@@ -96,7 +123,7 @@ public class Items_Bought extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent=new Intent(getApplicationContext(),ReportUser.class);
-                        intent.putExtra("product_id",model.getProduct_doc_ref());
+                        intent.putExtra("user_id",model.getPostedUserId());
                         startActivity(intent);
                     }
                 });
@@ -174,6 +201,7 @@ public class Items_Bought extends AppCompatActivity {
             ProductId=itemView.findViewById(R.id.product_id_id);
             SendReview=itemView.findViewById(R.id.send_review_id);
             ReportUser=itemView.findViewById(R.id.report_user_id);
+
         }
     }
 
