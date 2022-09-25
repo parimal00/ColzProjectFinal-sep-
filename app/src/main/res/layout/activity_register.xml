@@ -209,7 +209,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:inputType="textPassword"
             android:hint="password"></com.google.android.material.textfield.TextInputEditText>
 
     </com.google.android.material.textfield.TextInputLayout>  <com.google.android.material.textfield.TextInputLayout
@@ -228,7 +228,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:inputType="textPassword"
             android:hint="Re-enter password"></com.google.android.material.textfield.TextInputEditText>
 
     </com.google.android.material.textfield.TextInputLayout>  <com.google.android.material.textfield.TextInputLayout
@@ -278,7 +278,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="this is error message"
             android:textColor="#FF0000"
             />
         <Button

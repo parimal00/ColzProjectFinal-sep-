@@ -57,6 +57,7 @@ public class SendFragment extends Fragment {
     RecyclerView mfireStoreList;
     StorageReference mStorageRef;
     Bitmap bitmap;
+    TextView Error;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class SendFragment extends Fragment {
 //
 
 
-
+        Error=root.findViewById(R.id.error_id);
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -78,6 +79,27 @@ public class SendFragment extends Fragment {
         String userID = firebaseAuth.getCurrentUser().getUid();
 
         Log.d("waaaaaaaaaaaaaa", userID);
+
+        firebaseFirestore.collection("users").document(userID).collection("myPosts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int count=0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                count=count+1;
+
+                            }
+                            if(count==0){
+                                Error.setText("you have posted 0 items");
+                            }
+
+                        } else {
+
+                        }
+                    }
+                });
 
         Query query = firebaseFirestore.collection("users").document(userID).collection("myPosts");
 

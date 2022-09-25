@@ -32,6 +32,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -56,6 +58,7 @@ public class ShareFragment extends Fragment {
     RecyclerView mfireStoreList;
     StorageReference mStorageRef;
     Bitmap bitmap;
+    TextView Error;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -74,6 +77,29 @@ public class ShareFragment extends Fragment {
         String userID = firebaseAuth.getCurrentUser().getUid();
 
         Log.d("waaaaaaaaaaaaaa", userID);
+
+        Error=root.findViewById(R.id.error_id);
+
+        firebaseFirestore.collection("users").document(userID).collection("itemsBought").whereEqualTo("item_bought",false)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int count=0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                count=count+1;
+
+                            }
+                            if(count==0){
+                                Error.setText("you have ordered 0 items");
+                            }
+
+                        } else {
+
+                        }
+                    }
+                });
 
         Query query = firebaseFirestore.collection("users").document(userID).collection("itemsBought").whereEqualTo("item_bought",false);
 

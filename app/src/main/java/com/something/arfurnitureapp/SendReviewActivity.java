@@ -86,7 +86,6 @@ public class SendReviewActivity extends AppCompatActivity {
                         prepareReview(reviewText,product_id);
                     }
                     else{
-                        pd.dismiss();
                             Toast.makeText(getApplicationContext(), "review cannot be empty", Toast.LENGTH_SHORT).show();
                         }
                     }

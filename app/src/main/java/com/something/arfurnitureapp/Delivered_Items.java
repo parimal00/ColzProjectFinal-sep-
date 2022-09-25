@@ -25,8 +25,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -37,6 +40,8 @@ import com.something.arfurnitureapp.ui.tools.ToolsFragment;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.annotation.Nullable;
 
 public class Delivered_Items extends AppCompatActivity {
 
@@ -126,6 +131,19 @@ public class Delivered_Items extends AppCompatActivity {
                 holder.Phone_no.setText(""+model.getPhoneNo());
                 holder.OrderedUserQuantity.setText(""+model.getOrdered_quantity());
                 holder.ProductId.setText(""+model.getProduct_doc_ref());
+
+                String userID=model.getBuying_user_id();
+
+                DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
+
+
+                documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                     holder.OrderedUserName.setText(documentSnapshot.getString("email"));
+
+                    }
+                });
 
 
                String signature_path= model.getSignature_path();

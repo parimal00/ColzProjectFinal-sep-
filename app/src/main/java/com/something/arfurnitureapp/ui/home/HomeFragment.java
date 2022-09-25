@@ -160,6 +160,8 @@ public class HomeFragment extends Fragment {
 
 
 
+
+
                 String image_name = model.getImage_name();
                 String userID = model.getUserID();
                 String price = model.getPrice();
@@ -169,14 +171,17 @@ public class HomeFragment extends Fragment {
                 String description=model.getDescription();
                 String specification=model.getSpecification();
 
-                Log.d("product description",description);
-                //Log.d("product_specification",specification);
+
+                DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
 
 
-             //   String orderedQuantity = "1";
+                documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        holder.PostedBy.setText(documentSnapshot.getString("email"));
 
-                Log.d("sexy",model.getQuantity());
-
+                    }
+                });
 
                 holder.BuyBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -303,6 +308,7 @@ public class HomeFragment extends Fragment {
                 user.put("product_doc_ref",product_doc_ref);
                 user.put("item_delivered",false);
                 user.put("buying_user_id",firebaseAuth.getCurrentUser().getUid());
+                user.put("email",value.get("email"));
 
 
 
@@ -353,7 +359,8 @@ public class HomeFragment extends Fragment {
                 .document(documentRef).set(itemsInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-            Log.d("bitch","waaaaaaaaaa");
+
+                Toast.makeText(getContext(),"ordered placed successfully",Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -368,7 +375,7 @@ public class HomeFragment extends Fragment {
 
     private class ProductViewHolder extends  RecyclerView.ViewHolder {
 
-        public TextView List_name,ContactNumber,Address;
+        public TextView List_name,ContactNumber,Address,PostedBy;
         EditText OrderedQuantity;
        public TextView Price,Quantity;
        public  ImageView ProductImage;
@@ -394,6 +401,7 @@ public class HomeFragment extends Fragment {
             BuyBtn = itemView.findViewById(R.id.buyBtn_id);
             OrderedQuantity = itemView.findViewById(R.id.orderedQuantity_id);
             ViewReview=itemView.findViewById(R.id.view_review_id);
+            PostedBy=itemView.findViewById(R.id.posted_by_id);
 
 
 

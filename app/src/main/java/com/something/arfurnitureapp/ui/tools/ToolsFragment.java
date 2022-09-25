@@ -35,6 +35,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -64,7 +66,7 @@ public class ToolsFragment extends Fragment {
     String specification;
     String description;
     String status;
-
+    TextView Error;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -81,9 +83,30 @@ public class ToolsFragment extends Fragment {
         mStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://fir-aoo-49890.appspot.com");
 
         String userID = firebaseAuth.getCurrentUser().getUid();
+        Error=root.findViewById(R.id.error_id);
 
         Log.d("waaaaaaaaaaaaaa",userID);
 
+        firebaseFirestore.collection("users").document(userID).collection("buyingUsers").whereEqualTo("item_delivered",false)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int count=0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                count=count+1;
+
+                            }
+                            if(count==0){
+                                Error.setText("You have no orders");
+                            }
+
+                        } else {
+
+                        }
+                    }
+                });
         Query query = firebaseFirestore.collection("users").document(userID).collection("buyingUsers").whereEqualTo("item_delivered",false);
 
 

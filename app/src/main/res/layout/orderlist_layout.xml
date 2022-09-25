@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/productImagezzzz_id"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"/>
+        android:layout_width="386dp"
+        android:layout_height="310dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -131,6 +131,7 @@
         android:id="@+id/product_details_id"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
         android:background="#20eb7d"
         android:textColor="#ffff"
         android:text="View Product Details"/>

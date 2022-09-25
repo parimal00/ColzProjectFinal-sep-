@@ -20,12 +20,16 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -44,6 +48,7 @@ public class ViewReviewsActivity extends AppCompatActivity {
     int quantity;
     Button Search;
     EditText Email;
+    TextView Error;
 
 
     @Override
@@ -64,13 +69,34 @@ public class ViewReviewsActivity extends AppCompatActivity {
         mfireStoreList=findViewById(R.id.orderList);
 
         mStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://fir-aoo-49890.appspot.com");
-
+        Error=findViewById(R.id.error_id);
 
         String userID = firebaseAuth.getCurrentUser().getUid();
 
         Log.d("waaaaaaaaaaaaaa",userID);
 
         Query query = firebaseFirestore.collection("products").document(product_id).collection("reviews");
+
+        firebaseFirestore.collection("products").document(product_id).collection("reviews")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int count=0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                count=count+1;
+
+                            }
+                            if(count==0){
+                                Error.setText("this item has no reviews");
+                            }
+
+                        } else {
+
+                        }
+                    }
+                });
 
 
         FirestoreRecyclerOptions<ReviewModel> options = new FirestoreRecyclerOptions.Builder<ReviewModel>().setQuery(query,ReviewModel.class).build();

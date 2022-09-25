@@ -7,6 +7,14 @@
     android:orientation="vertical"
     tools:context=".ViewReviewsActivity">
 
+    <TextView
+        android:id="@+id/error_id"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="#ff0000"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderList"
